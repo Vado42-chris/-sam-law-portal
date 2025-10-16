@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block page_title %}Case Studies{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-6">
+        <h1 class="text-2xl font-bold text-white mb-2">Case Studies</h1>
+        <p class="text-text-dark-muted">Real-world success stories from SAM LAW - Learn from similar cases</p>
+    </div>
+    
+    <!-- Filter -->
+    <div class="flex gap-2">
+        <button class="px-4 py-2 bg-accent-cyan/20 text-accent-cyan border border-accent-cyan rounded-sm text-sm font-medium">All Cases</button>
+        <button class="px-4 py-2 bg-surface-dark/30 text-text-dark-muted border border-gray-700 rounded-sm text-sm font-medium hover:border-accent-cyan">Separation</button>
+        <button class="px-4 py-2 bg-surface-dark/30 text-text-dark-muted border border-gray-700 rounded-sm text-sm font-medium hover:border-accent-cyan">Custody</button>
+        <button class="px-4 py-2 bg-surface-dark/30 text-text-dark-muted border border-gray-700 rounded-sm text-sm font-medium hover:border-accent-cyan">Property Division</button>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-8">
+        <div class="space-y-6">
+            <div class="border border-gray-700 rounded-sm p-6 hover:border-accent-cyan transition-colors">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Successful Separation with Child Custody Agreement</h3>
+                        <div class="flex gap-2">
+                            <span class="text-xs bg-accent-cyan/20 text-accent-cyan px-2 py-1 rounded-sm">SEPARATION</span>
+                            <span class="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded-sm">CUSTODY</span>
+                        </div>
+                    </div>
+                    <span class="text-xs text-text-dark-muted">3 months duration</span>
+                </div>
+                
+                <p class="text-sm text-text-dark-muted mb-4">
+                    A couple with one child successfully negotiated separation terms through mediation, 
+                    establishing a fair custody arrangement and equitable asset division without litigation.
+                </p>
+                
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <p class="text-2xl font-bold text-accent-cyan">90%</p>
+                        <p class="text-xs text-text-dark-muted">Client Satisfaction</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-bold text-accent-cyan">$0</p>
+                        <p class="text-xs text-text-dark-muted">Court Fees</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-bold text-accent-cyan">12 weeks</p>
+                        <p class="text-xs text-text-dark-muted">Resolution Time</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border border-gray-700 rounded-sm p-6 hover:border-accent-cyan transition-colors">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Legal Aid Support for Complex Separation</h3>
+                        <div class="flex gap-2">
+                            <span class="text-xs bg-accent-cyan/20 text-accent-cyan px-2 py-1 rounded-sm">SEPARATION</span>
+                            <span class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-sm">LEGAL AID</span>
+                        </div>
+                    </div>
+                    <span class="text-xs text-text-dark-muted">5 months duration</span>
+                </div>
+                
+                <p class="text-sm text-text-dark-muted mb-4">
+                    A client with limited financial resources successfully obtained Legal Aid and achieved 
+                    a fair separation agreement with professional legal representation throughout the process.
+                </p>
+                
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <p class="text-2xl font-bold text-accent-cyan">95%</p>
+                        <p class="text-xs text-text-dark-muted">Client Satisfaction</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-bold text-accent-cyan">100%</p>
+                        <p class="text-xs text-text-dark-muted">Legal Aid Coverage</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-bold text-accent-cyan">20 weeks</p>
+                        <p class="text-xs text-text-dark-muted">Resolution Time</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

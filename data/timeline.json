@@ -1,0 +1,20 @@
+[
+  {
+    "id": "event-001",
+    "title": "Legal Aid Application Deadline",
+    "date": "2025-10-25",
+    "type": "deadline",
+    "category": "deadline",
+    "description": "Deadline to submit Legal Aid application with all supporting documentation",
+    "status": "upcoming"
+  },
+  {
+    "id": "event-002",
+    "title": "Separation Date",
+    "date": "2024-06-15",
+    "type": "milestone",
+    "category": "milestone",
+    "description": "Official separation date - documented",
+    "status": "completed"
+  }
+]

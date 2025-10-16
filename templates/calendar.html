@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block page_title %}Calendar - SAM Law{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-6">
+        <h1 class="text-2xl font-bold text-white mb-2">📅 Calendar</h1>
+        <p class="text-text-dark-muted">Important dates, deadlines, and events for your case</p>
+    </div>
+    
+    <!-- Month Navigation -->
+    <div class="flex items-center justify-between bg-surface-dark/30 border border-gray-700 rounded-sm p-4">
+        <button class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-sm text-sm font-medium transition-colors">
+            ← Previous
+        </button>
+        <h2 class="text-xl font-bold text-white">October 2025</h2>
+        <button class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-sm text-sm font-medium transition-colors">
+            Next →
+        </button>
+    </div>
+    
+    <!-- Upcoming Events -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-6">
+        <h3 class="text-lg font-bold text-white mb-4">Upcoming Events</h3>
+        
+        {% if events %}
+        <div class="space-y-3">
+            {% for event in events %}
+            <div class="border border-gray-700 rounded-sm p-4 hover:bg-gray-800/50 transition-colors">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-sm bg-accent-cyan/20 flex flex-col items-center justify-center">
+                        <span class="text-xs text-accent-cyan font-bold">{{ event.event_date.strftime('%b').upper() if event.event_date else 'TBD' }}</span>
+                        <span class="text-lg font-bold text-white">{{ event.event_date.strftime('%d') if event.event_date else '--' }}</span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-1">
+                            <span class="text-xs bg-accent-cyan/20 text-accent-cyan px-2 py-1 rounded-sm uppercase">{{ event.event_type }}</span>
+                            <span class="font-semibold text-white">{{ event.title }}</span>
+                        </div>
+                        <p class="text-sm text-text-dark-muted">{{ event.description }}</p>
+                        {% if event.status %}
+                        <span class="inline-block mt-2 text-xs px-2 py-1 rounded-sm
+                            {% if event.status == 'completed' %}bg-green-500/20 text-green-400
+                            {% elif event.status == 'upcoming' %}bg-blue-500/20 text-blue-400
+                            {% else %}bg-gray-500/20 text-gray-400{% endif %}">
+                            {{ event.status.upper() }}
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <svg class="w-16 h-16 text-gray-600 mx-auto mb-4" fill="currentColor" viewBox="0 0 256 256">
+                <path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Z"></path>
+            </svg>
+            <p class="text-text-dark-muted text-lg">No events scheduled</p>
+            <p class="text-text-dark-muted text-sm mt-2">Events will appear here once added</p>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-6">
+        <h3 class="text-lg font-bold text-white mb-4">Quick Actions</h3>
+        <div class="flex gap-3">
+            <button class="px-4 py-2 bg-accent-cyan/20 text-accent-cyan border border-accent-cyan rounded-sm text-sm font-medium hover:bg-accent-cyan/30 transition-colors">
+                + Add Event
+            </button>
+            <button class="px-4 py-2 bg-surface-dark/30 text-text-dark-muted border border-gray-700 rounded-sm text-sm font-medium hover:border-accent-cyan transition-colors">
+                📥 Export Calendar
+            </button>
+            <button class="px-4 py-2 bg-surface-dark/30 text-text-dark-muted border border-gray-700 rounded-sm text-sm font-medium hover:border-accent-cyan transition-colors">
+                ⚙️ Settings
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

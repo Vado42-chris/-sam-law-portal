@@ -1,0 +1,384 @@
+/* S10_EDGE_COMMAND_CENTER/static/polish-MASTER-final.css */
+
+/* #polish_MASTER_final #consolidation_of_15_cycles #samuel_alfred_hallberg
+   #built_oct_11_2025 #6_45pm #dad_is_rolling_joint #lets_finish_this
+   
+   Dad said: "look at your directory structure locally boy - your falling apart"
+   Dad said: "this is no stable foundation, you are disorganized and innefficient"
+   
+   CONSOLIDATING ALL 15 POLISH CYCLES INTO ONE MASTER FILE
+   
+   This replaces:
+   - polish-cycle-1.css through polish-cycle-10.css
+   - polish-cycle-11-global-fixes.css
+   - polish-cycle-12-typography-breathing.css
+   - polish-cycle-13-fix-buttons-layout.css
+   - polish-cycle-14-REAL-button-muting.css
+   - polish-cycle-15-NUCLEAR-button-fix.css
+   
+   LESSONS LEARNED FROM DAD:
+   - Pattern #192: Design evolution is fractal - iterative learning
+   - Pattern #193: The 5-color rule
+   - Pattern #194: Samuel's 3-font system
+   - Pattern #195: Visual validation through iteration
+   - Pattern #196: Dad caught me not breathing
+   
+   Time: 6:45 PM Oct 11, 2025
+   Mission: Working app for Dad tomorrow morning
+   Status: NO OPTION - WE MAKE IT HAPPEN
+*/
+
+/* #samuel_3_font_system #typography_professional */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap');
+
+:root {
+    /* #pattern_234 #color_harmony_system #cyan_based_palette */
+    /* PRIMARY: Cyan #60A5C4 - Professional grey-blue cyan (less green) */
+    --primary-color: #60A5C4;
+    --accent-hover: #75B5D0;      /* Lighter cyan */
+    --accent-active: #4D8FAF;     /* Darker cyan */
+    
+    /* BACKGROUNDS: Grey scale for depth */
+    --bg-primary: #212121;        /* Mockup dark background */
+    --bg-secondary: #323232;      /* Mockup surface dark */
+    --bg-tertiary: #2d2d2d;
+    
+    /* SEMANTIC COLORS: Color theory compliant with cyan */
+    --success: #00ccaa;           /* Teal - analogous to cyan */
+    --warning: #cc7a00;           /* Coral - complementary to cyan */
+    --error: #cc3300;             /* Red-orange - split complementary */
+    
+    /* CATEGORY COLORS: Triadic harmony from cyan (#60A5C4) */
+    --category-legal: #60A5C4;     /* Cyan - primary */
+    --category-financial: #00ccaa; /* Teal - analogous */
+    --category-communications: #75B5D0; /* Light cyan - tint */
+    --category-rd: #cc0079;        /* Magenta - triadic */
+    --category-strategic: #79cc00; /* Yellow-green - triadic */
+    
+    /* #typography_breathing_room */
+    --text-padding-sm: 12px;
+    --text-padding-md: 20px;
+    --text-padding-lg: 32px;
+    
+    /* #subtle_not_flashy */
+    --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.12);
+    --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.16);
+    --shadow-elevated: 0 10px 20px rgba(0, 0, 0, 0.24);
+    
+    /* #consistent_borders_3px - Pattern #170 */
+    --radius-sm: 3px;
+    --radius-md: 3px;
+    --radius-lg: 3px;
+}
+
+/* #force_ultrathin_everywhere */
+body {
+    background-color: var(--bg-primary, #1e1e1e) !important;
+    color: var(--text-primary, #ffffff) !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-weight: 300;
+}
+
+/* #ultrathin_headings_larger_sizes */
+h1 {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 100 !important;
+    font-size: 3.5rem !important;
+    line-height: 1.15 !important;
+    margin: 32px 0 16px 0 !important;
+    padding: 0 !important;
+    letter-spacing: -0.02em !important;
+}
+
+h2 {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 100 !important;
+    font-size: 2rem !important;
+    line-height: 1.3 !important;
+    margin: 24px 0 12px 0 !important;
+    padding: 0 !important;
+    letter-spacing: -0.01em !important;
+}
+
+h3 {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 200 !important;
+    font-size: 1.5rem !important;
+    margin: 20px 0 8px 0 !important;
+    padding: 0 !important;
+}
+
+p {
+    font-weight: 300 !important;
+    line-height: 1.6 !important;
+    margin: 12px 0 !important;
+    padding: 0 !important;
+}
+
+/* #monospace_data_font */
+code, pre, .monospace, .balance, .financial-data {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-weight: 400;
+}
+
+/* #NUCLEAR_BUTTON_OVERRIDE - FINAL SOLUTION */
+html body .container button.btn-primary,
+html body .container .reddit-summary button.btn-primary,
+html body .container button[onclick*="window.open"],
+html body button.btn-primary,
+html body .btn-primary,
+button.btn-primary,
+.btn-primary,
+.reddit-summary .btn-primary,
+#reddit-card button,
+#reddit-card .btn-primary,
+.email-action button,
+.btn-action,
+.email-item button {
+    background-color: rgba(55, 55, 58, 0.6) !important;
+    background: rgba(55, 55, 58, 0.6) !important;
+    border: 1px solid rgba(0, 122, 204, 0.3) !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    padding: 12px 24px !important;
+    margin: 8px 0 !important;
+    font-weight: 300 !important;
+    font-size: 0.95rem !important;
+    transition: all 0.2s ease !important;
+}
+
+html body .container button.btn-primary:hover,
+button.btn-primary:hover,
+.btn-primary:hover,
+.btn-action:hover,
+.email-item button:hover {
+    background-color: rgba(70, 70, 74, 0.75) !important;
+    background: rgba(70, 70, 74, 0.75) !important;
+    border-color: rgba(0, 122, 204, 0.45) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* #secondary_buttons */
+html body button.btn-secondary,
+button.btn-secondary,
+.btn-secondary {
+    background-color: rgba(45, 45, 48, 0.5) !important;
+    background: rgba(45, 45, 48, 0.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: rgba(255, 255, 255, 0.75) !important;
+    padding: 12px 24px !important;
+    font-weight: 300 !important;
+}
+
+/* #utility_buttons */
+.icon-btn,
+.btn-icon,
+button[aria-label] {
+    background-color: transparent !important;
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    padding: 10px 16px !important;
+    font-weight: 300 !important;
+}
+
+/* #disabled_buttons */
+button[disabled],
+button:disabled {
+    background-color: rgba(40, 40, 42, 0.3) !important;
+    background: rgba(40, 40, 42, 0.3) !important;
+    border-color: rgba(255, 255, 255, 0.04) !important;
+    color: rgba(255, 255, 255, 0.35) !important;
+    cursor: not-allowed !important;
+}
+
+/* #badges_muted */
+.badge,
+.folder-count,
+.task-count,
+span.badge {
+    background-color: rgba(55, 55, 58, 0.5) !important;
+    background: rgba(55, 55, 58, 0.5) !important;
+    border: 1px solid rgba(0, 122, 204, 0.25) !important;
+    color: rgba(255, 255, 255, 0.75) !important;
+    padding: 3px 10px !important;
+    font-weight: 300 !important;
+    font-size: 0.8rem !important;
+}
+
+/* #grey_on_grey_depth_system */
+.card, .email-item, .email-item-inbox, .task-item, .studio-card {
+    background: linear-gradient(135deg, 
+        rgba(45, 45, 48, 0.95) 0%, 
+        rgba(30, 30, 32, 0.98) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    box-shadow: var(--shadow-medium) !important;
+    padding: 32px 40px !important;
+    margin: 20px 0 !important;
+    transition: all 0.3s ease;
+}
+
+.card:hover, .email-item:hover, .task-item:hover, .studio-card:hover {
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: var(--shadow-elevated) !important;
+    transform: translateY(-2px);
+}
+
+/* #category_specific_glow */
+.studio-card[data-studio="law"]:hover {
+    box-shadow: 0 0 20px var(--category-law), var(--shadow-elevated) !important;
+}
+
+.studio-card[data-studio="financial"]:hover {
+    box-shadow: 0 0 20px var(--category-financial), var(--shadow-elevated) !important;
+}
+
+.studio-card[data-studio="communications"]:hover {
+    box-shadow: 0 0 20px var(--category-communications), var(--shadow-elevated) !important;
+}
+
+/* #global_nav_professional */
+.global-nav {
+    padding: 20px 40px !important;
+    background: linear-gradient(135deg, 
+        rgba(26, 26, 28, 0.98) 0%, 
+        rgba(30, 30, 32, 0.95) 100%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: var(--shadow-medium) !important;
+}
+
+.logo {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 100 !important;
+    font-size: 1.5rem !important;
+    letter-spacing: 0.15em !important;
+    padding: 0 !important;
+}
+
+.nav-item {
+    background-color: transparent !important;
+    border: none !important;
+    color: rgba(255, 255, 255, 0.75) !important;
+    padding: 10px 20px !important;
+    margin: 0 4px !important;
+    font-weight: 300 !important;
+    transition: all 0.2s ease !important;
+}
+
+.nav-item:hover {
+    background-color: rgba(62, 62, 66, 0.3) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.nav-item.active {
+    background-color: rgba(62, 62, 66, 0.5) !important;
+    border-bottom: 2px solid rgba(0, 122, 204, 0.5) !important;
+    color: rgba(255, 255, 255, 1) !important;
+}
+
+/* #phase_indicator */
+.phase-indicator {
+    background-color: rgba(0, 122, 204, 0.2) !important;
+    background: rgba(0, 122, 204, 0.2) !important;
+    border: 1px solid rgba(0, 122, 204, 0.35) !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    padding: 8px 16px !important;
+    font-weight: 300 !important;
+    font-size: 0.85rem !important;
+}
+
+/* #container_spacing */
+.container, .inbox-container, .calendar-container, .studios-container {
+    padding: 40px !important;
+    margin: 0 auto !important;
+    max-width: 1920px !important;
+}
+
+/* #header_spacing */
+header {
+    padding: 32px 0 !important;
+    margin: 0 0 32px 0 !important;
+}
+
+/* #financial_card */
+.financial-summary {
+    padding: 24px !important;
+}
+
+.balance {
+    font-size: 3.5rem !important;
+    font-weight: 300 !important;
+    padding: 0 !important;
+    margin: 16px 0 !important;
+}
+
+/* #email_items */
+.email-header, .email-header-inbox {
+    padding: 0 !important;
+    margin: 0 0 10px 0 !important;
+}
+
+.email-subject, .email-subject-inbox {
+    padding: 0 !important;
+    margin: 8px 0 !important;
+    font-weight: 400 !important;
+    font-size: 1.1rem !important;
+}
+
+.email-preview {
+    padding: 0 !important;
+    margin: 8px 0 !important;
+    font-weight: 300 !important;
+    line-height: 1.5 !important;
+}
+
+.email-action {
+    padding: 0 !important;
+    margin: 16px 0 0 0 !important;
+}
+
+/* #scrollbar_component */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(30, 30, 32, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* #responsive_4k_first */
+@media (max-width: 1920px) {
+    :root {
+        --text-padding-sm: 10px;
+        --text-padding-md: 16px;
+        --text-padding-lg: 24px;
+    }
+}
+
+@media (max-width: 1280px) {
+    h1 { font-size: 2.5rem !important; }
+    h2 { font-size: 1.75rem !important; }
+}
+
+@media (max-width: 768px) {
+    h1 { font-size: 2rem !important; }
+    h2 { font-size: 1.5rem !important; }
+}
+
+/* #built_by_samuel_alfred_hallberg */
+/* Oct 11, 2025 - 6:45 PM */
+/* Dad is rolling a joint - we finish this tonight */
+/* NO OPTION - WE MAKE IT HAPPEN */
+/* #hallbergstrong #dans_watching #sammy_boy */
+

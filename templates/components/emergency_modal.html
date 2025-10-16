@@ -1,0 +1,162 @@
+<!-- Emergency Contact Modal - Always Available -->
+<div id="emergency-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.95); z-index: 99999; padding: 40px;">
+    <div style="max-width: 900px; margin: 0 auto; height: 100%; display: flex; flex-direction: column;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+            <h2 style="font-weight: 300; margin: 0; color: #f87171;">🚨 Emergency Resources & Support</h2>
+            <button onclick="closeEmergencyModal()" style="background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; opacity: 0.7;">&times;</button>
+        </div>
+        
+        <div style="flex: 1; overflow-y: auto;">
+            <!-- Crisis Hotlines -->
+            <div style="background: rgba(248, 113, 113, 0.1); border: 2px solid #f87171; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+                <h3 style="font-weight: 400; margin: 0 0 20px 0; color: #f87171;">⚠ Immediate Crisis Support</h3>
+                <div style="display: grid; gap: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: rgba(0, 0, 0, 0.3); border-radius: 8px;">
+                        <div>
+                            <div style="font-weight: 500; margin-bottom: 4px;">National Suicide Prevention Lifeline</div>
+                            <div style="font-size: 0.9rem; opacity: 0.7;">24/7 Free & Confidential Support</div>
+                        </div>
+                        <a href="tel:988" style="background: #f87171; color: #000; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">Call 988</a>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: rgba(0, 0, 0, 0.3); border-radius: 8px;">
+                        <div>
+                            <div style="font-weight: 500; margin-bottom: 4px;">Crisis Text Line</div>
+                            <div style="font-size: 0.9rem; opacity: 0.7;">Text Support - Available 24/7</div>
+                        </div>
+                        <a href="sms:741741&body=HELLO" style="background: #f87171; color: #000; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">Text 741741</a>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: rgba(0, 0, 0, 0.3); border-radius: 8px;">
+                        <div>
+                            <div style="font-weight: 500; margin-bottom: 4px;">Emergency Services</div>
+                            <div style="font-size: 0.9rem; opacity: 0.7;">Police, Fire, Medical Emergency</div>
+                        </div>
+                        <a href="tel:911" style="background: #f87171; color: #000; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">Call 911</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Legal Aid Resources -->
+            <div style="background: rgba(29, 201, 201, 0.1); border: 1px solid rgba(29, 201, 201, 0.3); border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+                <h3 style="font-weight: 400; margin: 0 0 20px 0; color: var(--sam-law-teal);">⚖️ Legal Aid & Support</h3>
+                <div style="display: grid; gap: 12px;">
+                    <div style="padding: 16px; background: rgba(0, 0, 0, 0.2); border-radius: 8px;">
+                        <div style="font-weight: 500; margin-bottom: 8px;">Legal Aid Services</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 12px;">Free legal assistance for qualifying individuals</div>
+                        <div style="display: flex; gap: 12px;">
+                            <a href="tel:1-800-668-8258" style="background: var(--sam-law-teal); color: #112121; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 0.9rem;">1-800-668-8258</a>
+                            <a href="https://www.legalaid.ab.ca" target="_blank" style="background: rgba(29, 201, 201, 0.2); border: 1px solid var(--sam-law-teal); color: var(--sam-law-teal); padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 0.9rem;">Visit Website</a>
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 16px; background: rgba(0, 0, 0, 0.2); border-radius: 8px;">
+                        <div style="font-weight: 500; margin-bottom: 8px;">Law Information Centre</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 12px;">Free legal information and guidance</div>
+                        <div style="display: flex; gap: 12px;">
+                            <a href="tel:1-800-332-1091" style="background: var(--sam-law-teal); color: #112121; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 0.9rem;">1-800-332-1091</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Disability Support -->
+            <div style="background: rgba(29, 201, 201, 0.1); border: 1px solid rgba(29, 201, 201, 0.3); border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+                <h3 style="font-weight: 400; margin: 0 0 20px 0; color: var(--sam-law-teal);">♿ Disability Support Services</h3>
+                <div style="display: grid; gap: 12px;">
+            <div style="padding: 16px; background: rgba(0, 0, 0, 0.2); border-radius: 8px;">
+                <div style="font-weight: 500; margin-bottom: 8px;">Saskatchewan Assured Income for Disability (SAID)</div>
+                <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 12px;">Financial and health benefits for eligible Saskatchewan residents</div>
+                <div style="display: flex; gap: 12px;">
+                    <a href="tel:1-888-268-0325" style="background: var(--sam-law-teal); color: #112121; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 0.9rem;">1-888-268-0325</a>
+                    <a href="https://www.saskatchewan.ca/residents/family-and-social-support/disability-services" target="_blank" style="background: rgba(29, 201, 201, 0.2); border: 1px solid var(--sam-law-teal); color: var(--sam-law-teal); padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 0.9rem;">Visit Website</a>
+                </div>
+            </div>
+                    
+                    <div style="padding: 16px; background: rgba(0, 0, 0, 0.2); border-radius: 8px;">
+                        <div style="font-weight: 500; margin-bottom: 8px;">Disability Rights Advocacy</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 12px;">Support and advocacy for disability rights</div>
+                        <div style="display: flex; gap: 12px;">
+                            <a href="tel:1-800-387-6121" style="background: var(--sam-law-teal); color: #112121; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 0.9rem;">1-800-387-6121</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Domestic Violence Resources -->
+            <div style="background: rgba(248, 113, 113, 0.1); border: 1px solid #f87171; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+                <h3 style="font-weight: 400; margin: 0 0 20px 0; color: #f87171;">🛡️ Domestic Violence Support</h3>
+                <div style="display: grid; gap: 12px;">
+                    <div style="padding: 16px; background: rgba(0, 0, 0, 0.2); border-radius: 8px;">
+                        <div style="font-weight: 500; margin-bottom: 8px;">Saskatchewan Crisis Line</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 12px;">24/7 Crisis support and referrals</div>
+                        <div style="display: flex; gap: 12px;">
+                            <a href="tel:1-800-667-8088" style="background: #f87171; color: #000; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">1-800-667-8088</a>
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 16px; background: rgba(0, 0, 0, 0.2); border-radius: 8px;">
+                        <div style="font-weight: 500; margin-bottom: 8px;">Women's Shelters</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 12px;">Safe housing and support services</div>
+                        <div style="display: flex; gap: 12px;">
+                            <a href="tel:1-866-331-3933" style="background: #f87171; color: #000; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">1-866-331-3933</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mental Health Support -->
+            <div style="background: rgba(29, 201, 201, 0.1); border: 1px solid rgba(29, 201, 201, 0.3); border-radius: 12px; padding: 32px;">
+                <h3 style="font-weight: 400; margin: 0 0 20px 0; color: var(--sam-law-teal);">🧠 Mental Health Resources</h3>
+                <div style="display: grid; gap: 12px;">
+                    <div style="padding: 16px; background: rgba(0, 0, 0, 0.2); border-radius: 8px;">
+                        <div style="font-weight: 500; margin-bottom: 8px;">HealthLine Saskatchewan</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 12px;">24/7 Health advice and referrals</div>
+                        <div style="display: flex; gap: 12px;">
+                            <a href="tel:811" style="background: var(--sam-law-teal); color: #112121; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 0.9rem;">Call 811</a>
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 16px; background: rgba(0, 0, 0, 0.2); border-radius: 8px;">
+                        <div style="font-weight: 500; margin-bottom: 8px;">Addiction Helpline</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 12px;">Confidential support for addiction issues</div>
+                        <div style="display: flex; gap: 12px;">
+                            <a href="tel:1-866-332-2322" style="background: var(--sam-law-teal); color: #112121; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 0.9rem;">1-866-332-2322</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 24px; padding: 20px; background: rgba(29, 201, 201, 0.1); border: 1px solid rgba(29, 201, 201, 0.3); border-radius: 8px;">
+            <p style="font-weight: 300; margin: 0; font-size: 0.9rem; opacity: 0.9;">
+                <strong>You are not alone.</strong> These resources are here to help you. All services are confidential and available 24/7. If you're in immediate danger, call 911.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Emergency Button (Always Visible) -->
+<div style="position: fixed; bottom: 24px; right: 24px; z-index: 9998;">
+    <button onclick="openEmergencyModal()" style="width: 60px; height: 60px; border-radius: 50%; background: #f87171; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(248, 113, 113, 0.4); transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: bold; color: white;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        SOS
+    </button>
+</div>
+
+<script>
+    function openEmergencyModal() {
+        document.getElementById('emergency-modal').style.display = 'block';
+    }
+    
+    function closeEmergencyModal() {
+        document.getElementById('emergency-modal').style.display = 'none';
+    }
+    
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeEmergencyModal();
+        }
+    });
+</script>
+

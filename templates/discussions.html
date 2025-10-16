@@ -1,0 +1,357 @@
+{% extends "base.html" %}
+
+{% block title %}SAM Law - Case Discussions{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    .message-thread {
+        background: rgba(45, 45, 48, 0.5);
+        border-left: 3px solid var(--sam-law-teal);
+        padding: 24px;
+        margin-bottom: 24px;
+        border-radius: 8px;
+    }
+    
+    .participant-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 12px;
+        border-radius: 16px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+    
+    .participant-you {
+        background: rgba(29, 201, 201, 0.2);
+        color: var(--sam-law-teal);
+    }
+    
+    .participant-counsel {
+        background: rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.85);
+    }
+    
+    .file-attachment {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        background: rgba(29, 201, 201, 0.1);
+        border: 1px solid rgba(29, 201, 201, 0.3);
+        border-radius: 6px;
+        margin-top: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .file-attachment:hover {
+        background: rgba(29, 201, 201, 0.2);
+        border-color: rgba(29, 201, 201, 0.5);
+    }
+    
+    .ai-assistant-card {
+        background: linear-gradient(135deg, rgba(29, 201, 201, 0.1) 0%, rgba(45, 45, 48, 0.5) 100%);
+        border: 1px solid rgba(29, 201, 201, 0.3);
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .file-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+        background: rgba(45, 45, 48, 0.5);
+        border-radius: 6px;
+        margin-bottom: 8px;
+        transition: all 0.2s ease;
+    }
+    
+    .file-item:hover {
+        background: rgba(45, 45, 48, 0.7);
+    }
+    
+    .reply-box {
+        background: rgba(30, 30, 32, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 16px;
+        margin-top: 24px;
+    }
+    
+    .reply-input {
+        width: 100%;
+        background: rgba(45, 45, 48, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #fff;
+        padding: 12px;
+        border-radius: 6px;
+        font-weight: 300;
+        resize: vertical;
+        min-height: 100px;
+    }
+    
+    .send-button {
+        background: var(--sam-law-teal);
+        color: #112121;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .send-button:hover {
+        background: var(--sam-law-accent);
+        transform: translateY(-1px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 200px 1fr 300px; gap: 0; min-height: calc(100vh - 120px);">
+    
+    <!-- LEFT SIDEBAR: Participants -->
+    <div style="border-right: 1px solid rgba(255, 255, 255, 0.1); padding: 24px;">
+        <h3 style="font-weight: 400; margin-bottom: 24px;">Participants</h3>
+        
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(29, 201, 201, 0.2); display: flex; align-items: center; justify-content: center; color: var(--sam-law-teal);">
+                    <span class="material-symbols-outlined" style="font-size: 20px;">person</span>
+                </div>
+                <span style="font-size: 0.9rem; font-weight: 400;">You (Client)</span>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center;">
+                    <span class="material-symbols-outlined" style="font-size: 20px;">gavel</span>
+                </div>
+                <span style="font-size: 0.9rem; font-weight: 300; opacity: 0.7;">Your Counsel</span>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center;">
+                    <span class="material-symbols-outlined" style="font-size: 20px;">corporate_fare</span>
+                </div>
+                <span style="font-size: 0.9rem; font-weight: 300; opacity: 0.7;">Defendant Inc.</span>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center;">
+                    <span class="material-symbols-outlined" style="font-size: 20px;">gavel</span>
+                </div>
+                <span style="font-size: 0.9rem; font-weight: 300; opacity: 0.7;">Opposing Counsel</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MAIN CONTENT: Discussion Thread -->
+    <div style="padding: 32px; overflow-y: auto;">
+        <div style="display: flex; align-items: center; justify-between; margin-bottom: 32px;">
+            <div>
+                <h1 style="font-weight: 200; margin: 0;">Discussion: Disability Claim Strategy</h1>
+                <div style="margin-top: 8px; display: flex; align-items: center; gap: 12px;">
+                    <input type="text" placeholder="Search conversation..." style="padding: 8px 16px; background: rgba(45, 45, 48, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: #fff; font-weight: 300; width: 300px;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Message Thread -->
+        <div class="message-thread">
+            <div style="display: flex; align-items: start; gap: 16px;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(29, 201, 201, 0.2); display: flex; align-items: center; justify-content: center; color: var(--sam-law-teal); flex-shrink: 0;">
+                    <span class="material-symbols-outlined">person</span>
+                </div>
+                <div style="flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                        <span class="participant-badge participant-you">You</span>
+                        <span style="font-size: 0.85rem; opacity: 0.6;">2024-03-15 09:30 AM</span>
+                    </div>
+                    <p style="font-weight: 300; line-height: 1.6; margin: 12px 0;">
+                        I've reviewed the initial defense arguments. Their points about my "higher level of functionality" are concerning. How do we counter this?
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="message-thread">
+            <div style="display: flex; align-items: start; gap: 16px;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <span class="material-symbols-outlined">gavel</span>
+                </div>
+                <div style="flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                        <span class="participant-badge participant-counsel">Your Counsel</span>
+                        <span style="font-size: 0.85rem; opacity: 0.6;">2024-03-15 10:15 AM</span>
+                    </div>
+                    <p style="font-weight: 300; line-height: 1.6; margin: 12px 0;">
+                        This is a common tactic. We'll counter it with our own evidence. I've attached Dr. Evans's latest report which explicitly refutes their surveillance claims. Please review it.
+                    </p>
+                    <div class="file-attachment">
+                        <span class="material-symbols-outlined" style="color: var(--sam-law-teal);">description</span>
+                        <div>
+                            <div style="font-weight: 400; font-size: 0.9rem;">Dr_Evans_Report_Final.pdf</div>
+                            <div style="font-size: 0.8rem; opacity: 0.6;">850 KB</div>
+                        </div>
+                        <span class="material-symbols-outlined" style="margin-left: auto;">download</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="message-thread">
+            <div style="display: flex; align-items: start; gap: 16px;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <span class="material-symbols-outlined">gavel</span>
+                </div>
+                <div style="flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                        <span class="participant-badge participant-counsel">Opposing Counsel</span>
+                        <span style="font-size: 0.85rem; opacity: 0.6;">2024-03-16 02:00 PM</span>
+                    </div>
+                    <p style="font-weight: 300; line-height: 1.6; margin: 12px 0;">
+                        We've received your medical submission. However, we'd like to schedule an <span style="color: var(--sam-law-teal);">independent medical examination</span> to verify the extent of the claimant's condition.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="message-thread">
+            <div style="display: flex; align-items: start; gap: 16px;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(29, 201, 201, 0.2); display: flex; align-items: center; justify-content: center; color: var(--sam-law-teal); flex-shrink: 0;">
+                    <span class="material-symbols-outlined">person</span>
+                </div>
+                <div style="flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                        <span class="participant-badge participant-you">You</span>
+                        <span style="font-size: 0.85rem; opacity: 0.6;">2024-03-16 03:45 PM</span>
+                    </div>
+                    <div style="background: rgba(29, 201, 201, 0.1); border-left: 3px solid var(--sam-law-teal); padding: 12px; margin-bottom: 12px; border-radius: 4px;">
+                        <div style="font-size: 0.85rem; opacity: 0.7; margin-bottom: 6px;">Replying to: "Another examination? This feels like they're just trying to delay..."</div>
+                    </div>
+                    <p style="font-weight: 300; line-height: 1.6; margin: 12px 0;">
+                        Another <span style="color: var(--sam-law-teal);">examination</span>? This feels like they're just trying to delay things and wear me down. What should we do?
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Reply Box -->
+        <div class="reply-box">
+            <div style="display: flex; align-items: start; gap: 16px;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(29, 201, 201, 0.2); display: flex; align-items: center; justify-content: center; color: var(--sam-law-teal); flex-shrink: 0;">
+                    <span class="material-symbols-outlined">person</span>
+                </div>
+                <div style="flex: 1;">
+                    <div style="font-size: 0.85rem; opacity: 0.7; margin-bottom: 8px;">Replying to: "Another examination? This feels like they're just trying to delay..."</div>
+                    <textarea class="reply-input" placeholder="Type your reply..." id="reply-input"></textarea>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
+                        <button class="btn-secondary" style="padding: 8px 16px;">
+                            <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">attach_file</span>
+                            Attach File
+                        </button>
+                        <button class="send-button">
+                            <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle; margin-right: 6px;">send</span>
+                            Send Reply
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- RIGHT SIDEBAR: AI Assistant & My Files -->
+    <div style="border-left: 1px solid rgba(255, 255, 255, 0.1); padding: 24px; overflow-y: auto;">
+        
+        <!-- AI Legal Assistant -->
+        <div class="ai-assistant-card">
+            <h3 style="font-weight: 400; margin-bottom: 12px; color: var(--sam-law-teal);">AI Legal Assistant</h3>
+            <p style="font-weight: 300; font-size: 0.9rem; line-height: 1.5; opacity: 0.85;">
+                The defense is attempting to discredit your disability claim by suggesting you are more functional than reported, citing surveillance and questioning treatment compliance. They are now requesting an independent medical exam to further challenge your existing medical evidence.
+            </p>
+            <button class="btn-secondary" style="width: 100%; margin-top: 16px; text-align: center;">
+                <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle; margin-right: 6px;">auto_awesome</span>
+                Ask Your AI Assistant...
+            </button>
+        </div>
+        
+        <!-- My Files -->
+        <div style="margin-top: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 style="font-weight: 400;">My Files</h3>
+                <a href="#" style="color: var(--sam-law-teal); font-size: 0.85rem;">View All</a>
+            </div>
+            
+            <div class="file-item">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span class="material-symbols-outlined" style="color: var(--sam-law-teal);">folder_zip</span>
+                    <div>
+                        <div style="font-size: 0.9rem; font-weight: 400;">Medical Records.zip</div>
+                        <div style="font-size: 0.8rem; opacity: 0.6;">2.5 MB</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="file-item">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span class="material-symbols-outlined" style="color: var(--sam-law-teal);">description</span>
+                    <div>
+                        <div style="font-size: 0.9rem; font-weight: 400;">Claim Draft v3.docx</div>
+                        <div style="font-size: 0.8rem; opacity: 0.6;">150 KB</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="file-item" style="border: 1px solid var(--sam-law-teal); background: rgba(29, 201, 201, 0.1);">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span class="material-symbols-outlined" style="color: var(--sam-law-teal);">description</span>
+                    <div>
+                        <div style="font-size: 0.9rem; font-weight: 400;">Dr_Evans_Report_Final.pdf</div>
+                        <div style="font-size: 0.8rem; opacity: 0.6;">850 KB</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="file-item">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span class="material-symbols-outlined" style="color: var(--sam-law-teal);">folder_zip</span>
+                    <div>
+                        <div style="font-size: 0.9rem; font-weight: 400;">Surveillance Photos.zip</div>
+                        <div style="font-size: 0.8rem; opacity: 0.6;">12.1 MB</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn-primary" style="width: 100%; margin-top: 16px; text-align: center;">
+                <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle; margin-right: 6px;">upload</span>
+                Publish to Discussion
+            </button>
+        </div>
+        
+    </div>
+    
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Placeholder for future WebSocket real-time updates
+    console.log('Case Discussions loaded');
+    
+    // Reply button functionality
+    document.querySelector('.send-button').addEventListener('click', function() {
+        const input = document.getElementById('reply-input');
+        if (input.value.trim()) {
+            alert('Send Reply functionality - to be implemented with WebSocket');
+            // TODO: Implement actual message sending
+        }
+    });
+</script>
+{% endblock %}
+

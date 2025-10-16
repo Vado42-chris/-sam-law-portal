@@ -1,0 +1,40 @@
+{
+  "profile": {
+    "name": "Christopher James Hallberg",
+    "email": "chris@xibalba-studio.ca",
+    "phone": "",
+    "preferred_contact": "email"
+  },
+  "case": {
+    "case_number": "SAML-00001",
+    "status": "Preparing Legal Aid Application",
+    "primary_lawyer": "",
+    "legal_aid_status": "Preparing Application"
+  },
+  "privacy": {
+    "share_with_mediator": true,
+    "share_with_opposing": false,
+    "two_factor_enabled": false,
+    "encrypt_documents": true
+  },
+  "accessibility": {
+    "font_size": 1.0,
+    "high_contrast": false,
+    "screen_reader_mode": false,
+    "reduced_motion": false,
+    "keyboard_navigation": true
+  },
+  "notifications": {
+    "email_enabled": true,
+    "deadline_reminders": true,
+    "message_notifications": true,
+    "document_updates": true,
+    "reminder_days_before": 7
+  },
+  "billing": {
+    "legal_aid_application_status": "Preparing",
+    "legal_aid_coverage": "Pending",
+    "legal_aid_renewal_date": ""
+  }
+}
+

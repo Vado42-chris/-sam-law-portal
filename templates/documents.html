@@ -1,0 +1,389 @@
+{% extends "base.html" %}
+
+{% block title %}SAM Law - Documents{% endblock %}
+
+{% block extra_css %}
+<style>
+    .tab-nav {
+        display: flex;
+        gap: 32px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 32px;
+    }
+    
+    .tab-item {
+        padding: 12px 0;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.6);
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        transition: all 0.2s ease;
+    }
+    
+    .tab-item:hover {
+        color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .tab-item.active {
+        color: var(--sam-law-teal);
+        border-bottom-color: var(--sam-law-teal);
+    }
+    
+    .document-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1.5fr 1fr;
+        gap: 24px;
+        padding: 20px;
+        background: rgba(45, 45, 48, 0.5);
+        border-radius: 6px;
+        margin-bottom: 12px;
+        align-items: center;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+    
+    .document-row:hover {
+        background: rgba(45, 45, 48, 0.7);
+        transform: translateY(-1px);
+    }
+    
+    .ocr-complete {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        background: rgba(0, 204, 170, 0.2);
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #00ccaa;
+    }
+    
+    .ocr-processing {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        background: rgba(204, 122, 0, 0.2);
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #cc7a00;
+    }
+    
+    .document-tag {
+        display: inline-block;
+        padding: 4px 10px;
+        background: rgba(29, 201, 201, 0.2);
+        border: 1px solid rgba(29, 201, 201, 0.3);
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 400;
+        margin-right: 6px;
+    }
+    
+    .upload-zone {
+        border: 2px dashed rgba(29, 201, 201, 0.5);
+        border-radius: 8px;
+        padding: 48px;
+        text-align: center;
+        background: rgba(29, 201, 201, 0.05);
+        margin-bottom: 32px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .upload-zone:hover {
+        border-color: var(--sam-law-teal);
+        background: rgba(29, 201, 201, 0.1);
+    }
+    
+    .upload-zone.dragging {
+        border-color: var(--sam-law-teal);
+        background: rgba(29, 201, 201, 0.2);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<header>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1>Documents</h1>
+            <p style="font-weight: 300; opacity: 0.85;">Document Management & Organization</p>
+        </div>
+        <button class="btn-primary" onclick="document.getElementById('file-upload').click()">
+            <span style="font-size: 1.1rem; vertical-align: middle; margin-right: 6px;"></span>
+            Upload Document
+        </button>
+        <input type="file" id="file-upload" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" style="display: none;" onchange="handleFileUpload(event)">
+    </div>
+</header>
+
+<!-- Search Bar -->
+<div style="margin-bottom: 32px;">
+    <input type="text" id="search-docs" placeholder="Search documents, tags, or content..." 
+           style="width: 100%; padding: 16px; background: rgba(45, 45, 48, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; font-weight: 300; font-size: 1rem;">
+</div>
+
+<!-- Upload Zone -->
+<div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-upload').click()">
+    <div style="font-size: 3rem; margin-bottom: 16px; opacity: 0.7;">⬆</div>
+    <h3 style="font-weight: 400; margin-bottom: 8px;">Drag & drop files here</h3>
+    <p style="font-weight: 300; opacity: 0.7;">or click to browse</p>
+    <p style="font-size: 0.85rem; margin-top: 12px; opacity: 0.5;">Supports PDF, DOC, DOCX, JPG, PNG</p>
+</div>
+
+<!-- Tabs -->
+<div class="tab-nav">
+    <div class="tab-item active" data-tab="all">All Documents</div>
+    <div class="tab-item" data-tab="case">Case Documents</div>
+    <div class="tab-item" data-tab="personal">Personal Documents</div>
+</div>
+
+<!-- Document List -->
+<div id="document-list">
+    <!-- Table Header -->
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1.5fr 1fr; gap: 24px; padding: 12px 20px; font-weight: 500; opacity: 0.7; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">
+        <div>Document Name</div>
+        <div>OCR Status</div>
+        <div>Tags</div>
+        <div>Uploaded</div>
+    </div>
+    
+    <!-- Document Rows -->
+    <div class="document-row" onclick="viewDocument('medical-report-001')">
+        <div>
+            <div style="font-weight: 400; margin-bottom: 4px;">Medical Report - John Smith</div>
+            <div style="font-size: 0.85rem; opacity: 0.6;">2.3 MB · PDF</div>
+        </div>
+        <div>
+            <span class="ocr-complete">
+                <span style="font-size: 1.2rem;"></span>
+                Complete
+            </span>
+        </div>
+        <div>
+            <span class="document-tag">Medical</span>
+            <span class="document-tag">Urgent</span>
+        </div>
+        <div style="opacity: 0.7;">2024-01-15</div>
+    </div>
+    
+    <div class="document-row" onclick="viewDocument('legal-correspondence-001')">
+        <div>
+            <div style="font-weight: 400; margin-bottom: 4px;">Legal Correspondence - Case 12345</div>
+            <div style="font-size: 0.85rem; opacity: 0.6;">450 KB · PDF</div>
+        </div>
+        <div>
+            <span class="ocr-complete">
+                <span style="font-size: 1.2rem;"></span>
+                Complete
+            </span>
+        </div>
+        <div>
+            <span class="document-tag">Legal</span>
+            <span class="document-tag">Correspondence</span>
+        </div>
+        <div style="opacity: 0.7;">2024-02-20</div>
+    </div>
+    
+    <div class="document-row" onclick="viewDocument('personal-id-001')">
+        <div>
+            <div style="font-weight: 400; margin-bottom: 4px;">Personal ID - John Smith</div>
+            <div style="font-size: 0.85rem; opacity: 0.6;">1.1 MB · JPG</div>
+        </div>
+        <div>
+            <span class="ocr-processing">
+                <span style="font-size: 1.2rem; animation: spin 1s linear infinite;">⟳</span>
+                Processing...
+            </span>
+        </div>
+        <div>
+            <span class="document-tag">Personal</span>
+            <span class="document-tag">ID</span>
+        </div>
+        <div style="opacity: 0.7;">2024-03-10</div>
+    </div>
+    
+    <div class="document-row" onclick="viewDocument('financial-statement-001')">
+        <div>
+            <div style="font-weight: 400; margin-bottom: 4px;">Financial Statement - March 2024</div>
+            <div style="font-size: 0.85rem; opacity: 0.6;">780 KB · PDF</div>
+        </div>
+        <div>
+            <span class="ocr-complete">
+                <span style="font-size: 1.2rem;"></span>
+                Complete
+            </span>
+        </div>
+        <div>
+            <span class="document-tag">Financial</span>
+            <span class="document-tag">Evidence</span>
+        </div>
+        <div style="opacity: 0.7;">2024-03-15</div>
+    </div>
+    
+    <div class="document-row" onclick="viewDocument('court-filing-001')">
+        <div>
+            <div style="font-weight: 400; margin-bottom: 4px;">Court Filing - Motion to Dismiss</div>
+            <div style="font-size: 0.85rem; opacity: 0.6;">3.2 MB · PDF</div>
+        </div>
+        <div>
+            <span class="ocr-complete">
+                <span style="font-size: 1.2rem;"></span>
+                Complete
+            </span>
+        </div>
+        <div>
+            <span class="document-tag">Court</span>
+            <span class="document-tag">Filing</span>
+        </div>
+        <div style="opacity: 0.7;">2024-03-20</div>
+    </div>
+</div>
+
+<!-- Document Preview Modal (Hidden by default) -->
+<div id="document-preview-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.9); z-index: 9999; padding: 40px;">
+    <div style="max-width: 1200px; margin: 0 auto; height: 100%; display: flex; flex-direction: column;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <h2 id="preview-title" style="font-weight: 300; margin: 0;">Document Preview</h2>
+            <button onclick="closePreview()" style="background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; opacity: 0.7; transition: opacity 0.2s;">&times;</button>
+        </div>
+        <div style="flex: 1; background: rgba(45, 45, 48, 0.5); border-radius: 8px; padding: 32px; overflow-y: auto;">
+            <div id="preview-content">
+                <!-- Document preview content will be loaded here -->
+            </div>
+        </div>
+        <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: flex-end;">
+            <button class="btn-secondary" onclick="downloadDocument()">Download</button>
+            <button class="btn-secondary" onclick="shareDocument()">Share</button>
+            <button class="btn-primary" onclick="editDocument()">Edit Tags</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<style>
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+</style>
+
+<script>
+    // Tab switching
+    document.querySelectorAll('.tab-item').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            const tabType = this.dataset.tab;
+            filterDocuments(tabType);
+        });
+    });
+    
+    function filterDocuments(type) {
+        // TODO: Implement actual filtering
+        console.log('Filtering by:', type);
+    }
+    
+    // Search functionality
+    document.getElementById('search-docs').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        document.querySelectorAll('.document-row').forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? 'grid' : 'none';
+        });
+    });
+    
+    // Drag and drop
+    const uploadZone = document.getElementById('upload-zone');
+    
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, preventDefaults, false);
+    });
+    
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    
+    ['dragenter', 'dragover'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, () => {
+            uploadZone.classList.add('dragging');
+        });
+    });
+    
+    ['dragleave', 'drop'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, () => {
+            uploadZone.classList.remove('dragging');
+        });
+    });
+    
+    uploadZone.addEventListener('drop', handleDrop);
+    
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFiles(files);
+    }
+    
+    function handleFileUpload(e) {
+        const files = e.target.files;
+        handleFiles(files);
+    }
+    
+    function handleFiles(files) {
+        ([...files]).forEach(file => {
+            console.log('Uploading:', file.name);
+            // TODO: Implement actual file upload with OCR processing
+            alert(`Uploading ${file.name}...\n\nFull upload with OCR processing will be implemented next.`);
+        });
+    }
+    
+    function viewDocument(docId) {
+        const modal = document.getElementById('document-preview-modal');
+        const title = document.getElementById('preview-title');
+        const content = document.getElementById('preview-content');
+        
+        title.textContent = `Document: ${docId}`;
+        content.innerHTML = `
+            <div style="text-align: center; padding: 60px; opacity: 0.7;">
+                <div style="font-size: 4rem; margin-bottom: 24px;"></div>
+                <h3 style="font-weight: 300; margin-bottom: 12px;">Document Preview</h3>
+                <p style="font-weight: 300;">Full document viewer with OCR text will be displayed here.</p>
+                <p style="margin-top: 24px; font-size: 0.9rem; opacity: 0.6;">Document ID: ${docId}</p>
+            </div>
+        `;
+        
+        modal.style.display = 'block';
+    }
+    
+    function closePreview() {
+        document.getElementById('document-preview-modal').style.display = 'none';
+    }
+    
+    function downloadDocument() {
+        alert('Download functionality - to be implemented');
+    }
+    
+    function shareDocument() {
+        alert('Share functionality - to be implemented');
+    }
+    
+    function editDocument() {
+        alert('Edit tags functionality - to be implemented');
+    }
+    
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closePreview();
+        }
+    });
+</script>
+{% endblock %}

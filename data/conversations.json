@@ -1,0 +1,35 @@
+{
+  "conversations": [],
+  "threads": [],
+  "parties": [
+    {
+      "id": "chris",
+      "name": "Christopher James Hallberg",
+      "role": "Applicant",
+      "access_level": "full",
+      "color": "#1dc9c9"
+    },
+    {
+      "id": "katherine",
+      "name": "Katherine Andersen-Hallberg",
+      "role": "Respondent",
+      "access_level": "limited",
+      "color": "#ff6b6b"
+    },
+    {
+      "id": "mediator",
+      "name": "Court Mediator",
+      "role": "Mediator",
+      "access_level": "neutral",
+      "color": "#4ecdc4"
+    },
+    {
+      "id": "legal_aid",
+      "name": "Legal Aid Saskatchewan",
+      "role": "Legal Aid",
+      "access_level": "limited",
+      "color": "#95e1d3"
+    }
+  ]
+}
+

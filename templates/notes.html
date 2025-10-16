@@ -1,0 +1,514 @@
+{% extends "base.html" %}
+
+{% block title %}SAM Law - Notes{% endblock %}
+
+{% block extra_css %}
+<style>
+    .notes-grid {
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        gap: 32px;
+        align-items: start;
+    }
+    
+    .notes-sidebar {
+        position: sticky;
+        top: 20px;
+    }
+    
+    .note-category {
+        padding: 12px 16px;
+        background: rgba(45, 45, 48, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .note-category:hover {
+        background: rgba(45, 45, 48, 0.7);
+        border-color: rgba(29, 201, 201, 0.4);
+    }
+    
+    .note-category.active {
+        background: rgba(29, 201, 201, 0.2);
+        border-color: var(--sam-law-teal);
+        color: var(--sam-law-teal);
+    }
+    
+    .note-count {
+        font-size: 0.85rem;
+        background: rgba(29, 201, 201, 0.2);
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-family: 'JetBrains Mono', monospace;
+    }
+    
+    .note-card {
+        background: rgba(45, 45, 48, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .note-card:hover {
+        background: rgba(45, 45, 48, 0.7);
+        border-color: rgba(29, 201, 201, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+    
+    .note-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 16px;
+    }
+    
+    .note-title {
+        font-size: 1.3rem;
+        font-weight: 400;
+        margin-bottom: 8px;
+        cursor: pointer;
+    }
+    
+    .note-meta {
+        font-size: 0.85rem;
+        opacity: 0.6;
+        font-family: 'JetBrains Mono', monospace;
+    }
+    
+    .note-content {
+        font-weight: 300;
+        line-height: 1.7;
+        opacity: 0.9;
+        margin-bottom: 16px;
+    }
+    
+    .note-content.collapsed {
+        max-height: 100px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .note-content.collapsed::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        background: linear-gradient(180deg, transparent, rgba(30, 45, 45, 1));
+    }
+    
+    .note-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    
+    .note-action-btn {
+        padding: 6px 12px;
+        background: rgba(29, 201, 201, 0.1);
+        border: 1px solid rgba(29, 201, 201, 0.3);
+        border-radius: 6px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .note-action-btn:hover {
+        background: rgba(29, 201, 201, 0.2);
+        border-color: var(--sam-law-teal);
+    }
+    
+    .note-tag {
+        display: inline-block;
+        padding: 4px 10px;
+        background: rgba(29, 201, 201, 0.15);
+        border: 1px solid rgba(29, 201, 201, 0.3);
+        border-radius: 12px;
+        font-size: 0.8rem;
+        margin-right: 6px;
+        margin-bottom: 6px;
+    }
+    
+    .note-editor {
+        display: none;
+        background: rgba(30, 45, 45, 0.95);
+        border: 2px solid var(--sam-law-teal);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 32px;
+    }
+    
+    .note-editor.active {
+        display: block;
+    }
+    
+    .editor-toolbar {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        flex-wrap: wrap;
+    }
+    
+    .toolbar-btn {
+        padding: 8px 12px;
+        background: rgba(45, 45, 48, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 0.9rem;
+    }
+    
+    .toolbar-btn:hover {
+        background: rgba(45, 45, 48, 0.8);
+        border-color: rgba(29, 201, 201, 0.4);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<header>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1>Case Notes</h1>
+            <p style="font-weight: 300; opacity: 0.85;">Personal notes, lawyer prep, and case documentation</p>
+        </div>
+        <button class="btn-primary" onclick="toggleEditor()">
+            <span style="font-size: 1.1rem; vertical-align: middle; margin-right: 6px;"></span>
+            Create Note
+        </button>
+    </div>
+</header>
+
+<!-- Note Editor (Hidden by default) -->
+<div id="note-editor" class="note-editor">
+    <h3 style="font-weight: 400; margin: 0 0 20px 0;">New Note</h3>
+    
+    <div style="margin-bottom: 16px;">
+        <input type="text" id="note-title-input" placeholder="Note title..." style="width: 100%; padding: 12px; background: rgba(45, 45, 48, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; font-size: 1.1rem; font-weight: 400;">
+    </div>
+    
+    <div class="editor-toolbar">
+        <button class="toolbar-btn" onclick="formatText('bold')" title="Bold"><strong>B</strong></button>
+        <button class="toolbar-btn" onclick="formatText('italic')" title="Italic"><em>I</em></button>
+        <button class="toolbar-btn" onclick="formatText('underline')" title="Underline"><u>U</u></button>
+        <span style="width: 1px; height: 24px; background: rgba(255, 255, 255, 0.1); margin: 0 4px;"></span>
+        <button class="toolbar-btn" onclick="formatText('insertUnorderedList')" title="Bullet List">• List</button>
+        <button class="toolbar-btn" onclick="formatText('insertOrderedList')" title="Numbered List">1. List</button>
+        <span style="width: 1px; height: 24px; background: rgba(255, 255, 255, 0.1); margin: 0 4px;"></span>
+        <select id="note-category-select" style="padding: 8px 12px; background: rgba(45, 45, 48, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: #fff;">
+            <option value="general">📋 General</option>
+            <option value="lawyer"> Lawyer Prep</option>
+            <option value="financial"> Financial</option>
+            <option value="communication">💬 Communication Log</option>
+            <option value="evidence"> Evidence</option>
+            <option value="questions">❓ Questions</option>
+        </select>
+    </div>
+    
+    <div contenteditable="true" id="note-content-input" style="min-height: 200px; padding: 16px; background: rgba(45, 45, 48, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; line-height: 1.7; margin-bottom: 16px; outline: none;" placeholder="Start writing your note..."></div>
+    
+    <div style="display: flex; gap: 12px; justify-content: flex-end;">
+        <button class="btn-secondary" onclick="cancelNote()">Cancel</button>
+        <button class="btn-primary" onclick="saveNote()">Save Note</button>
+    </div>
+</div>
+
+<!-- Notes Grid -->
+<div class="notes-grid">
+    <!-- Sidebar Categories -->
+    <div class="notes-sidebar">
+        <h3 style="font-weight: 400; margin: 0 0 16px 0; font-size: 1rem; opacity: 0.8;">Categories</h3>
+        <div class="note-category active" data-category="all">
+            <span>📂 All Notes</span>
+            <span class="note-count">12</span>
+        </div>
+        <div class="note-category" data-category="lawyer">
+            <span> Lawyer Prep</span>
+            <span class="note-count">3</span>
+        </div>
+        <div class="note-category" data-category="financial">
+            <span> Financial</span>
+            <span class="note-count">2</span>
+        </div>
+        <div class="note-category" data-category="communication">
+            <span>💬 Communications</span>
+            <span class="note-count">4</span>
+        </div>
+        <div class="note-category" data-category="evidence">
+            <span> Evidence</span>
+            <span class="note-count">2</span>
+        </div>
+        <div class="note-category" data-category="questions">
+            <span>❓ Questions</span>
+            <span class="note-count">1</span>
+        </div>
+    </div>
+    
+    <!-- Notes List -->
+    <div id="notes-list">
+        <!-- Note 1 -->
+        <div class="note-card" data-category="lawyer">
+            <div class="note-header">
+                <div>
+                    <div class="note-title" onclick="toggleNote(this)">Questions for Lawyer - Initial Consultation</div>
+                    <div class="note-meta">Created Oct 10, 2025 • Last edited Oct 12, 2025</div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <span class="note-tag"> Lawyer Prep</span>
+                </div>
+            </div>
+            <div class="note-content collapsed">
+                <p><strong>Priority Questions:</strong></p>
+                <ul>
+                    <li>What are my rights regarding property division given my disability status?</li>
+                    <li>How does AISH income affect spousal support calculations?</li>
+                    <li>What documentation do I need for Legal Aid application?</li>
+                    <li>Timeline expectations for separation proceedings?</li>
+                    <li>Options for mediation vs. court proceedings?</li>
+                </ul>
+                <p><strong>Financial Concerns:</strong></p>
+                <ul>
+                    <li>How will my disability benefits be protected?</li>
+                    <li>What are the costs if Legal Aid is denied?</li>
+                    <li>Payment plan options for legal fees?</li>
+                </ul>
+                <p><strong>Next Steps:</strong></p>
+                <ul>
+                    <li>Prepare complete financial disclosure</li>
+                    <li>Gather all relevant medical documentation</li>
+                    <li>Timeline of significant events</li>
+                </ul>
+            </div>
+            <div class="note-actions">
+                <button class="note-action-btn" onclick="toggleNote(this.closest('.note-card').querySelector('.note-title'))">Expand</button>
+                <button class="note-action-btn" onclick="editNote(this)">Edit</button>
+                <button class="note-action-btn" onclick="shareNote(this)">Share with Counsel</button>
+                <button class="note-action-btn" onclick="deleteNote(this)">Delete</button>
+            </div>
+        </div>
+        
+        <!-- Note 2 -->
+        <div class="note-card" data-category="financial">
+            <div class="note-header">
+                <div>
+                    <div class="note-title" onclick="toggleNote(this)">Financial Assets Overview</div>
+                    <div class="note-meta">Created Oct 8, 2025 • Last edited Oct 13, 2025</div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <span class="note-tag"> Financial</span>
+                    <span class="note-tag">Evidence</span>
+                </div>
+            </div>
+            <div class="note-content collapsed">
+                <p><strong>Bank Accounts:</strong></p>
+                <ul>
+                    <li>TD Chequing: ~$1,200</li>
+                    <li>TD Savings: ~$400</li>
+                </ul>
+                <p><strong>Assets:</strong></p>
+                <ul>
+                    <li>2015 Honda Civic (shared vehicle, primarily for family use)</li>
+                    <li>Computer equipment for work (~$3,000 value)</li>
+                    <li>Personal belongings</li>
+                </ul>
+                <p><strong>Debts:</strong></p>
+                <ul>
+                    <li>Credit card: $8,500</li>
+                    <li>Line of credit: $4,200</li>
+                </ul>
+                <p><strong>Income:</strong></p>
+                <ul>
+                    <li>AISH: $1,787/month</li>
+                    <li>Occasional contract work (variable)</li>
+                </ul>
+            </div>
+            <div class="note-actions">
+                <button class="note-action-btn" onclick="toggleNote(this.closest('.note-card').querySelector('.note-title'))">Expand</button>
+                <button class="note-action-btn" onclick="editNote(this)">Edit</button>
+                <button class="note-action-btn" onclick="attachDocument(this)">Attach Documents</button>
+                <button class="note-action-btn" onclick="deleteNote(this)">Delete</button>
+            </div>
+        </div>
+        
+        <!-- Note 3 -->
+        <div class="note-card" data-category="communication">
+            <div class="note-header">
+                <div>
+                    <div class="note-title" onclick="toggleNote(this)">Communication Log - October 2025</div>
+                    <div class="note-meta">Created Oct 1, 2025 • Last edited Oct 14, 2025</div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <span class="note-tag">💬 Communication</span>
+                </div>
+            </div>
+            <div class="note-content collapsed">
+                <p><strong>Oct 14, 2025:</strong> Set up SAM Law platform to organize all case documentation. Feeling more prepared for Legal Aid application.</p>
+                <p><strong>Oct 12, 2025:</strong> Spoke with Legal Aid intake coordinator. Confirmed I meet financial eligibility. Need to complete full application by Nov 15.</p>
+                <p><strong>Oct 8, 2025:</strong> Discussion with opposing counsel via email regarding document exchange. Professional tone maintained.</p>
+                <p><strong>Oct 5, 2025:</strong> Requested financial disclosure documents. Set deadline for Oct 20.</p>
+                <p><strong>Oct 1, 2025:</strong> Initial separation notice sent. Peaceful discussion about timeline and next steps.</p>
+            </div>
+            <div class="note-actions">
+                <button class="note-action-btn" onclick="toggleNote(this.closest('.note-card').querySelector('.note-title'))">Expand</button>
+                <button class="note-action-btn" onclick="editNote(this)">Edit</button>
+                <button class="note-action-btn" onclick="addEntry(this)">Add Entry</button>
+                <button class="note-action-btn" onclick="deleteNote(this)">Delete</button>
+            </div>
+        </div>
+        
+        <!-- Note 4 -->
+        <div class="note-card" data-category="evidence">
+            <div class="note-header">
+                <div>
+                    <div class="note-title" onclick="toggleNote(this)">Key Evidence & Documentation</div>
+                    <div class="note-meta">Created Oct 7, 2025 • Last edited Oct 11, 2025</div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <span class="note-tag"> Evidence</span>
+                </div>
+            </div>
+            <div class="note-content collapsed">
+                <p><strong>Medical Documentation:</strong></p>
+                <ul>
+                    <li>AISH approval letter (2018)</li>
+                    <li>Disability assessment reports</li>
+                    <li>Ongoing treatment records</li>
+                </ul>
+                <p><strong>Financial Records:</strong></p>
+                <ul>
+                    <li>Bank statements (last 12 months)</li>
+                    <li>Tax returns (3 years)</li>
+                    <li>AISH benefit statements</li>
+                    <li>Credit card statements</li>
+                </ul>
+                <p><strong>Correspondence:</strong></p>
+                <ul>
+                    <li>Email exchanges (organized by date)</li>
+                    <li>Text message backups (relevant to case)</li>
+                    <li>Legal notices and responses</li>
+                </ul>
+            </div>
+            <div class="note-actions">
+                <button class="note-action-btn" onclick="toggleNote(this.closest('.note-card').querySelector('.note-title'))">Expand</button>
+                <button class="note-action-btn" onclick="editNote(this)">Edit</button>
+                <button class="note-action-btn" onclick="linkDocuments(this)">Link Documents</button>
+                <button class="note-action-btn" onclick="deleteNote(this)">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Category filtering
+    document.querySelectorAll('.note-category').forEach(cat => {
+        cat.addEventListener('click', function() {
+            document.querySelectorAll('.note-category').forEach(c => c.classList.remove('active'));
+            this.classList.add('active');
+            
+            const category = this.dataset.category;
+            filterNotes(category);
+        });
+    });
+    
+    function filterNotes(category) {
+        document.querySelectorAll('.note-card').forEach(note => {
+            if (category === 'all' || note.dataset.category === category) {
+                note.style.display = 'block';
+            } else {
+                note.style.display = 'none';
+            }
+        });
+    }
+    
+    // Toggle note expansion
+    function toggleNote(element) {
+        const noteCard = element.closest('.note-card');
+        const content = noteCard.querySelector('.note-content');
+        const button = noteCard.querySelector('.note-action-btn');
+        
+        content.classList.toggle('collapsed');
+        button.textContent = content.classList.contains('collapsed') ? 'Expand' : 'Collapse';
+    }
+    
+    // Editor functions
+    function toggleEditor() {
+        const editor = document.getElementById('note-editor');
+        editor.classList.toggle('active');
+        if (editor.classList.contains('active')) {
+            document.getElementById('note-title-input').focus();
+        }
+    }
+    
+    function cancelNote() {
+        document.getElementById('note-editor').classList.remove('active');
+        document.getElementById('note-title-input').value = '';
+        document.getElementById('note-content-input').innerHTML = '';
+    }
+    
+    function saveNote() {
+        const title = document.getElementById('note-title-input').value;
+        const content = document.getElementById('note-content-input').innerHTML;
+        const category = document.getElementById('note-category-select').value;
+        
+        if (!title || !content) {
+            alert('Please add a title and content for your note.');
+            return;
+        }
+        
+        console.log('Saving note:', {title, content, category});
+        
+        // TODO: Implement actual note saving
+        alert(`Note "${title}" saved successfully!\n\nFull note persistence will be implemented next.`);
+        cancelNote();
+    }
+    
+    function formatText(command) {
+        document.execCommand(command, false, null);
+        document.getElementById('note-content-input').focus();
+    }
+    
+    // Note actions
+    function editNote(button) {
+        alert('Edit note functionality - to be implemented');
+    }
+    
+    function shareNote(button) {
+        alert('Share note functionality - to be implemented');
+    }
+    
+    function deleteNote(button) {
+        if (confirm('Are you sure you want to delete this note?')) {
+            button.closest('.note-card').remove();
+        }
+    }
+    
+    function attachDocument(button) {
+        alert('Attach document functionality - to be implemented');
+    }
+    
+    function addEntry(button) {
+        alert('Add entry functionality - to be implemented');
+    }
+    
+    function linkDocuments(button) {
+        alert('Link documents functionality - to be implemented');
+    }
+</script>
+{% endblock %}

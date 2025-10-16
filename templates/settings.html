@@ -1,0 +1,723 @@
+{% extends "base.html" %}
+
+{% block title %}SAM Law - Settings{% endblock %}
+
+{% block extra_css %}
+<style>
+    .settings-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .settings-tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 32px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        flex-wrap: wrap;
+    }
+    
+    .settings-tab {
+        padding: 12px 24px;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        color: rgba(255, 255, 255, 0.6);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 400;
+        font-size: 1rem;
+        margin-bottom: -2px;
+    }
+    
+    .settings-tab:hover {
+        color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .settings-tab.active {
+        color: var(--sam-law-teal);
+        border-bottom-color: var(--sam-law-teal);
+    }
+    
+    .settings-panel {
+        display: none;
+    }
+    
+    .settings-panel.active {
+        display: block;
+    }
+    
+    .settings-section {
+        background: rgba(45, 45, 48, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 32px;
+        margin-bottom: 24px;
+    }
+    
+    .settings-section h3 {
+        font-weight: 400;
+        margin: 0 0 20px 0;
+        font-size: 1.3rem;
+        color: var(--sam-law-teal);
+    }
+    
+    .form-group {
+        margin-bottom: 24px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 400;
+        font-size: 0.95rem;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        background: rgba(45, 45, 48, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: #fff;
+        font-weight: 300;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: var(--sam-law-teal);
+        outline: none;
+        background: rgba(45, 45, 48, 0.7);
+    }
+    
+    .form-hint {
+        font-size: 0.85rem;
+        opacity: 0.6;
+        margin-top: 6px;
+    }
+    
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 26px;
+        margin-left: 12px;
+    }
+    
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(45, 45, 48, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: .3s;
+        border-radius: 26px;
+    }
+    
+    .toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: .3s;
+        border-radius: 50%;
+    }
+    
+    input:checked + .toggle-slider {
+        background-color: var(--sam-law-teal);
+        border-color: var(--sam-law-teal);
+    }
+    
+    input:checked + .toggle-slider:before {
+        transform: translateX(24px);
+    }
+    
+    .setting-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .setting-row:last-child {
+        border-bottom: none;
+    }
+    
+    .setting-info h4 {
+        font-weight: 400;
+        margin: 0 0 4px 0;
+        font-size: 1rem;
+    }
+    
+    .setting-info p {
+        font-weight: 300;
+        opacity: 0.7;
+        margin: 0;
+        font-size: 0.9rem;
+    }
+    
+    .danger-zone {
+        border: 2px solid #f87171;
+        background: rgba(248, 113, 113, 0.1);
+    }
+    
+    .danger-zone h3 {
+        color: #f87171;
+    }
+    
+    .btn-danger {
+        background: rgba(248, 113, 113, 0.2);
+        border: 1px solid #f87171;
+        color: #f87171;
+        padding: 12px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 500;
+    }
+    
+    .btn-danger:hover {
+        background: rgba(248, 113, 113, 0.3);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="settings-container">
+    <header>
+        <h1>Settings</h1>
+        <p style="font-weight: 300; opacity: 0.85;">Manage your account, case details, and preferences</p>
+    </header>
+    
+    <!-- Settings Tabs -->
+    <div class="settings-tabs">
+        <button class="settings-tab active" onclick="switchTab('profile')">👤 Profile</button>
+        <button class="settings-tab" onclick="switchTab('case')"> Case Details</button>
+        <button class="settings-tab" onclick="switchTab('privacy')">🔒 Privacy & Security</button>
+        <button class="settings-tab" onclick="switchTab('accessibility')">♿ Accessibility</button>
+        <button class="settings-tab" onclick="switchTab('notifications')">🔔 Notifications</button>
+        <button class="settings-tab" onclick="switchTab('billing')">💳 Billing</button>
+    </div>
+    
+    <!-- Profile Panel -->
+    <div id="profile-panel" class="settings-panel active">
+        <div class="settings-section">
+            <h3>Personal Information</h3>
+            <form id="profile-form">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="full-name" value="Chris Hallberg" placeholder="Your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="email" value="chris@xibalba-studio.ca" placeholder="your@email.com">
+                    <div class="form-hint">Used for notifications and account recovery</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="phone" value="" placeholder="+1 (555) 123-4567">
+                    <div class="form-hint">For urgent case notifications</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Preferred Language</label>
+                    <select id="language">
+                        <option value="en">English</option>
+                        <option value="fr">French</option>
+                        <option value="es">Spanish</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-primary">Save Changes</button>
+            </form>
+        </div>
+        
+        <div class="settings-section">
+            <h3>Password & Authentication</h3>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Password</h4>
+                    <p>Last changed 30 days ago</p>
+                </div>
+                <button class="btn-secondary" onclick="changePassword()">Change Password</button>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Two-Factor Authentication</h4>
+                    <p>Add an extra layer of security to your account</p>
+                </div>
+                <button class="btn-secondary" onclick="setup2FA()">Enable 2FA</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Case Details Panel -->
+    <div id="case-panel" class="settings-panel">
+        <div class="settings-section">
+            <h3>Case Information</h3>
+            <form id="case-form">
+                <div class="form-group">
+                    <label>Case Number</label>
+                    <input type="text" value="SAML-00001" readonly style="opacity: 0.6;">
+                    <div class="form-hint">Assigned by system - cannot be changed</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Case Type</label>
+                    <select id="case-type">
+                        <option value="family-separation" selected>Family Law - Separation</option>
+                        <option value="family-divorce">Family Law - Divorce</option>
+                        <option value="family-custody">Family Law - Custody</option>
+                        <option value="family-support">Family Law - Support</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Separation Date</label>
+                    <input type="date" id="separation-date" value="2025-07-01">
+                </div>
+                
+                <div class="form-group">
+                    <label>Case Status</label>
+                    <select id="case-status">
+                        <option value="preparing" selected>Preparing for Legal Aid</option>
+                        <option value="filed">Filed with Court</option>
+                        <option value="mediation">In Mediation</option>
+                        <option value="hearing">Awaiting Hearing</option>
+                        <option value="settled">Settled</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Case Notes</label>
+                    <textarea id="case-notes" rows="4" placeholder="Add any important notes about your case...">Disability considerations: ADHD, Autism, Dyscalculia. Currently receiving AISH benefits. Need accessible communication methods.</textarea>
+                </div>
+                
+                <button type="submit" class="btn-primary">Update Case Details</button>
+            </form>
+        </div>
+        
+        <div class="settings-section">
+            <h3>Parties Involved</h3>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Your Legal Counsel</h4>
+                    <p>Not yet assigned</p>
+                </div>
+                <button class="btn-secondary" onclick="assignCounsel()">Assign Counsel</button>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Opposing Party</h4>
+                    <p>Katherine [Last Name]</p>
+                </div>
+                <button class="btn-secondary" onclick="editParty('opposing')">Edit Details</button>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Opposing Counsel</h4>
+                    <p>Not yet disclosed</p>
+                </div>
+                <button class="btn-secondary" onclick="editParty('opposing-counsel')">Add Counsel</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Privacy & Security Panel -->
+    <div id="privacy-panel" class="settings-panel">
+        <div class="settings-section">
+            <h3>Privacy Settings</h3>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Data Encryption</h4>
+                    <p>All your data is encrypted at rest and in transit</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked disabled>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Automatic Logout</h4>
+                    <p>Logout after 30 minutes of inactivity</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked onchange="toggleSetting('auto-logout', this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Session Recording</h4>
+                    <p>Record all actions for audit trail (required for legal cases)</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked disabled>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h3>Data Management</h3>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Export Your Data</h4>
+                    <p>Download all your case data, documents, and communications</p>
+                </div>
+                <button class="btn-secondary" onclick="exportData()">Export Data</button>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Data Retention</h4>
+                    <p>We keep your data for 7 years after case closure (legal requirement)</p>
+                </div>
+                <span style="opacity: 0.6; font-size: 0.9rem;">Automatic</span>
+            </div>
+        </div>
+        
+        <div class="settings-section danger-zone">
+            <h3>⚠️ Danger Zone</h3>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Delete Account</h4>
+                    <p>Permanently delete your account and all associated data</p>
+                </div>
+                <button class="btn-danger" onclick="deleteAccount()">Delete Account</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Accessibility Panel -->
+    <div id="accessibility-panel" class="settings-panel">
+        <div class="settings-section">
+            <h3>Visual Accessibility</h3>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>High Contrast Mode</h4>
+                    <p>Increase contrast for better visibility</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" onchange="toggleHighContrast(this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Large Text</h4>
+                    <p>Increase font size across the application</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" onchange="toggleLargeText(this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Reduce Motion</h4>
+                    <p>Minimize animations and transitions</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" onchange="toggleReducedMotion(this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h3>Cognitive Accessibility</h3>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Simplified Interface</h4>
+                    <p>Reduce visual complexity and focus on essential features</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" onchange="toggleSimplified(this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Reading Guide</h4>
+                    <p>Highlight the line you're reading</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" onchange="toggleReadingGuide(this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Dyslexia-Friendly Font</h4>
+                    <p>Use OpenDyslexic font for better readability</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" onchange="toggleDyslexicFont(this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h3>Screen Reader Support</h3>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Screen Reader Mode</h4>
+                    <p>Optimize interface for screen reader users</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" onchange="toggleScreenReader(this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Keyboard Navigation</h4>
+                    <p>Enhanced keyboard shortcuts and focus indicators</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked onchange="toggleKeyboardNav(this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notifications Panel -->
+    <div id="notifications-panel" class="settings-panel">
+        <div class="settings-section">
+            <h3>Email Notifications</h3>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>New Messages</h4>
+                    <p>Receive email when you get a new message</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked onchange="toggleNotification('email-messages', this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Deadline Reminders</h4>
+                    <p>Get reminded 3 days before important deadlines</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked onchange="toggleNotification('email-deadlines', this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Document Updates</h4>
+                    <p>Notify when documents are uploaded or changed</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked onchange="toggleNotification('email-documents', this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h3>SMS Notifications</h3>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Urgent Messages</h4>
+                    <p>Text for time-sensitive communications</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" onchange="toggleNotification('sms-urgent', this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Court Date Reminders</h4>
+                    <p>Text 1 day before court appearances</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked onchange="toggleNotification('sms-court', this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Billing Panel -->
+    <div id="billing-panel" class="settings-panel">
+        <div class="settings-section">
+            <h3>Subscription</h3>
+            <div style="background: rgba(29, 201, 201, 0.1); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h4 style="margin: 0 0 8px 0; font-weight: 400;">Disability Access - FREE</h4>
+                <p style="margin: 0; opacity: 0.85; font-weight: 300;">As a disabled user, you have free lifetime access to SAM Law.</p>
+            </div>
+            <div class="form-hint">
+                <p><strong>Our Commitment:</strong> SAM Law is free for people with disabilities. This is part of The Dan Foundation mission to make AI assistance a fundamental human right.</p>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h3>Payment History</h3>
+            <p style="opacity: 0.7; font-weight: 300;">No payments required for your account.</p>
+        </div>
+        
+        <div class="settings-section">
+            <h3>Support The Project</h3>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <h4>Optional Donation</h4>
+                    <p>Help us keep SAM Law free for others with disabilities</p>
+                </div>
+                <button class="btn-secondary" onclick="donate()">Donate</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function switchTab(tabName) {
+        // Hide all panels
+        document.querySelectorAll('.settings-panel').forEach(panel => {
+            panel.classList.remove('active');
+        });
+        
+        // Remove active from all tabs
+        document.querySelectorAll('.settings-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // Show selected panel
+        document.getElementById(tabName + '-panel').classList.add('active');
+        
+        // Mark tab as active
+        event.target.classList.add('active');
+    }
+    
+    // Form submissions
+    document.getElementById('profile-form')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Profile updated successfully!');
+    });
+    
+    document.getElementById('case-form')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Case details updated successfully!');
+    });
+    
+    // Setting toggles
+    function toggleSetting(setting, enabled) {
+        console.log(`Toggle ${setting}: ${enabled}`);
+        // TODO: Save to backend
+    }
+    
+    function toggleNotification(type, enabled) {
+        console.log(`Toggle notification ${type}: ${enabled}`);
+        // TODO: Save to backend
+    }
+    
+    // Accessibility functions
+    function toggleHighContrast(enabled) {
+        if (enabled) {
+            document.body.style.filter = 'contrast(1.3)';
+        } else {
+            document.body.style.filter = 'none';
+        }
+    }
+    
+    function toggleLargeText(enabled) {
+        if (enabled) {
+            document.body.style.fontSize = '120%';
+        } else {
+            document.body.style.fontSize = '100%';
+        }
+    }
+    
+    function toggleReducedMotion(enabled) {
+        if (enabled) {
+            document.body.style.setProperty('--transition-speed', '0s');
+        } else {
+            document.body.style.setProperty('--transition-speed', '0.2s');
+        }
+    }
+    
+    function toggleSimplified(enabled) {
+        alert('Simplified interface mode - to be implemented');
+    }
+    
+    function toggleReadingGuide(enabled) {
+        alert('Reading guide - to be implemented');
+    }
+    
+    function toggleDyslexicFont(enabled) {
+        if (enabled) {
+            document.body.style.fontFamily = 'OpenDyslexic, sans-serif';
+        } else {
+            document.body.style.fontFamily = '';
+        }
+    }
+    
+    function toggleScreenReader(enabled) {
+        alert('Screen reader optimization - to be implemented');
+    }
+    
+    function toggleKeyboardNav(enabled) {
+        console.log('Keyboard navigation:', enabled);
+    }
+    
+    // Action functions
+    function changePassword() {
+        alert('Change password modal - to be implemented');
+    }
+    
+    function setup2FA() {
+        alert('2FA setup wizard - to be implemented');
+    }
+    
+    function assignCounsel() {
+        alert('Assign legal counsel - to be implemented');
+    }
+    
+    function editParty(party) {
+        alert(`Edit ${party} details - to be implemented`);
+    }
+    
+    function exportData() {
+        alert('Exporting your data...\n\nThis will download all your case information, documents, and communications in a secure format.');
+    }
+    
+    function deleteAccount() {
+        if (confirm('⚠️ WARNING: This will permanently delete your account and all case data.\n\nThis action CANNOT be undone.\n\nAre you absolutely sure?')) {
+            alert('Account deletion requires email confirmation. Check your inbox.');
+        }
+    }
+    
+    function donate() {
+        alert('Thank you for supporting The Dan Foundation!\n\nDonation portal - to be implemented');
+    }
+</script>
+{% endblock %}

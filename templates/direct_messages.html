@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block page_title %}Direct Messages{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-6">
+        <h1 class="text-2xl font-bold text-white mb-2">Direct Messages</h1>
+        <p class="text-text-dark-muted">Private conversations with your legal team - 2 unread</p>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm">
+        <div class="grid grid-cols-3 h-[600px]">
+            <!-- Conversations List -->
+            <div class="border-r border-gray-700 overflow-y-auto">
+                <div class="p-4 border-b border-gray-700 bg-gray-800/50 cursor-pointer">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-accent-cyan/20 flex items-center justify-center text-accent-cyan font-bold">ER</div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-semibold text-white text-sm">Emma Rodriguez</span>
+                                <span class="w-2 h-2 bg-accent-cyan rounded-full"></span>
+                            </div>
+                            <p class="text-xs text-text-dark-muted truncate">Let's schedule a call to discuss...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-4 border-b border-gray-700 hover:bg-gray-800/30 cursor-pointer">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-white font-bold">MS</div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-semibold text-white text-sm">Michael Smith</span>
+                                <span class="w-2 h-2 bg-accent-cyan rounded-full"></span>
+                            </div>
+                            <p class="text-xs text-text-dark-muted truncate">I've reviewed the documents you sent...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-4 border-b border-gray-700 hover:bg-gray-800/30 cursor-pointer">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-white font-bold">LA</div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-semibold text-white text-sm">Legal Aid Support</span>
+                            </div>
+                            <p class="text-xs text-text-dark-muted truncate">Your application has been received</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Message Thread -->
+            <div class="col-span-2 flex flex-col">
+                <div class="p-4 border-b border-gray-700">
+                    <h3 class="font-semibold text-white">Emma Rodriguez</h3>
+                    <p class="text-xs text-text-dark-muted">Your Lawyer • Online</p>
+                </div>
+                
+                <div class="flex-1 p-4 overflow-y-auto">
+                    <p class="text-center text-text-dark-muted text-sm">Select a conversation to view messages</p>
+                </div>
+                
+                <div class="p-4 border-t border-gray-700">
+                    <input type="text" placeholder="Type a message..." class="w-full bg-gray-800 border border-gray-700 rounded-sm px-4 py-2 text-white text-sm focus:outline-none focus:border-accent-cyan">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

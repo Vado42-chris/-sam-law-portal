@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block page_title %}Messages - Aggregate View{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-6">
+        <h1 class="text-2xl font-bold text-white mb-2">Messages - Aggregate View</h1>
+        <p class="text-text-dark-muted">All message types across Xibalba services in one place</p>
+    </div>
+    
+    <!-- Filter Tabs -->
+    <div class="flex gap-2">
+        <button class="px-4 py-2 bg-accent-cyan/20 text-accent-cyan border border-accent-cyan rounded-sm text-sm font-medium">All Messages</button>
+        <button class="px-4 py-2 bg-surface-dark/30 text-text-dark-muted border border-gray-700 rounded-sm text-sm font-medium hover:border-accent-cyan">Email</button>
+        <button class="px-4 py-2 bg-surface-dark/30 text-text-dark-muted border border-gray-700 rounded-sm text-sm font-medium hover:border-accent-cyan">Direct Messages</button>
+        <button class="px-4 py-2 bg-surface-dark/30 text-text-dark-muted border border-gray-700 rounded-sm text-sm font-medium hover:border-accent-cyan">Case Messages</button>
+        <button class="px-4 py-2 bg-surface-dark/30 text-text-dark-muted border border-gray-700 rounded-sm text-sm font-medium hover:border-accent-cyan">Notifications</button>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-8">
+        <div class="space-y-4">
+            <div class="border border-gray-700 rounded-sm p-4 hover:bg-gray-800/50 transition-colors">
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-accent-cyan/20 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-accent-cyan" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-1">
+                            <span class="text-xs bg-accent-cyan/20 text-accent-cyan px-2 py-1 rounded-sm">EMAIL</span>
+                            <span class="font-semibold text-white">Emma Rodriguez</span>
+                            <span class="text-xs text-text-dark-muted">2 hours ago</span>
+                        </div>
+                        <p class="text-sm text-white mb-1">Re: Legal Aid Application Documents</p>
+                        <p class="text-sm text-text-dark-muted">I've reviewed your documents. We need to discuss a few items...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border border-gray-700 rounded-sm p-4 hover:bg-gray-800/50 transition-colors">
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-accent-cyan/20 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-accent-cyan" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M216,48H40A16,16,0,0,0,24,64V224a15.85,15.85,0,0,0,9.24,14.5A16.13,16.13,0,0,0,40,240a15.89,15.89,0,0,0,10.25-3.78.69.69,0,0,0,.13-.11L82.5,208H216a16,16,0,0,0,16-16V64A16,16,0,0,0,216,48Z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-1">
+                            <span class="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded-sm">DIRECT MESSAGE</span>
+                            <span class="font-semibold text-white">Michael Smith</span>
+                            <span class="text-xs text-text-dark-muted">Yesterday</span>
+                        </div>
+                        <p class="text-sm text-text-dark-muted">I've reviewed the documents you sent and have some feedback...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border border-gray-700 rounded-sm p-4 hover:bg-gray-800/50 transition-colors">
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-accent-cyan/20 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-accent-cyan" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06Z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-1">
+                            <span class="text-xs bg-orange-500/20 text-orange-400 px-2 py-1 rounded-sm">NOTIFICATION</span>
+                            <span class="font-semibold text-white">Legal Aid Deadline</span>
+                            <span class="text-xs text-text-dark-muted">Today</span>
+                        </div>
+                        <p class="text-sm text-text-dark-muted">Your Legal Aid application is due in 10 days</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

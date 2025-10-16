@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block page_title %}Help & Support - SAM Law{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-6">
+        <h1 class="text-2xl font-bold text-white mb-2">❓ Help & Support</h1>
+        <p class="text-text-dark-muted">Get assistance with SAM Law and your legal case</p>
+    </div>
+    
+    <!-- Quick Help Categories -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-6 hover:border-accent-cyan transition-colors cursor-pointer">
+            <div class="text-4xl mb-3">📚</div>
+            <h3 class="text-lg font-bold text-white mb-2">Getting Started</h3>
+            <p class="text-sm text-text-dark-muted">Learn the basics of using SAM Law</p>
+        </div>
+        
+        <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-6 hover:border-accent-cyan transition-colors cursor-pointer">
+            <div class="text-4xl mb-3">⚖️</div>
+            <h3 class="text-lg font-bold text-white mb-2">Legal Resources</h3>
+            <p class="text-sm text-text-dark-muted">Understand your legal options</p>
+        </div>
+        
+        <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-6 hover:border-accent-cyan transition-colors cursor-pointer">
+            <div class="text-4xl mb-3">💬</div>
+            <h3 class="text-lg font-bold text-white mb-2">Contact Support</h3>
+            <p class="text-sm text-text-dark-muted">Reach out to our team</p>
+        </div>
+    </div>
+    
+    <!-- Frequently Asked Questions -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-6">
+        <h3 class="text-lg font-bold text-white mb-4">Frequently Asked Questions</h3>
+        
+        <div class="space-y-3">
+            <div class="border border-gray-700 rounded-sm p-4 hover:bg-gray-800/50 transition-colors cursor-pointer">
+                <div class="flex items-center justify-between">
+                    <h4 class="font-semibold text-white">How do I upload documents to my case?</h4>
+                    <svg class="w-5 h-5 text-accent-cyan" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                    </svg>
+                </div>
+                <p class="text-sm text-text-dark-muted mt-2">Navigate to the Documents section, click "Upload Document", select your file, and add a description.</p>
+            </div>
+            
+            <div class="border border-gray-700 rounded-sm p-4 hover:bg-gray-800/50 transition-colors cursor-pointer">
+                <div class="flex items-center justify-between">
+                    <h4 class="font-semibold text-white">How do I track important deadlines?</h4>
+                    <svg class="w-5 h-5 text-accent-cyan" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                    </svg>
+                </div>
+                <p class="text-sm text-text-dark-muted mt-2">Use the Calendar and Timeline features to add and monitor all important dates and deadlines.</p>
+            </div>
+            
+            <div class="border border-gray-700 rounded-sm p-4 hover:bg-gray-800/50 transition-colors cursor-pointer">
+                <div class="flex items-center justify-between">
+                    <h4 class="font-semibold text-white">Can I access SAM Law from my phone?</h4>
+                    <svg class="w-5 h-5 text-accent-cyan" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                    </svg>
+                </div>
+                <p class="text-sm text-text-dark-muted mt-2">Yes! SAM Law is fully responsive and works on all devices including phones and tablets.</p>
+            </div>
+            
+            <div class="border border-gray-700 rounded-sm p-4 hover:bg-gray-800/50 transition-colors cursor-pointer">
+                <div class="flex items-center justify-between">
+                    <h4 class="font-semibold text-white">How secure is my information?</h4>
+                    <svg class="w-5 h-5 text-accent-cyan" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                    </svg>
+                </div>
+                <p class="text-sm text-text-dark-muted mt-2">Your data is encrypted, secure, and protected. We follow industry-standard security practices.</p>
+            </div>
+            
+            <div class="border border-gray-700 rounded-sm p-4 hover:bg-gray-800/50 transition-colors cursor-pointer">
+                <div class="flex items-center justify-between">
+                    <h4 class="font-semibold text-white">What if I need to speak to a lawyer?</h4>
+                    <svg class="w-5 h-5 text-accent-cyan" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                    </svg>
+                </div>
+                <p class="text-sm text-text-dark-muted mt-2">Use the Messages feature to communicate directly with your assigned lawyers and legal team.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contact Support -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-6">
+        <h3 class="text-lg font-bold text-white mb-4">Still Need Help?</h3>
+        <p class="text-text-dark-muted mb-4">Our support team is here to assist you.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="border border-gray-700 rounded-sm p-4">
+                <div class="flex items-center gap-3 mb-2">
+                    <svg class="w-5 h-5 text-accent-cyan" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
+                    </svg>
+                    <h4 class="font-semibold text-white">Email Support</h4>
+                </div>
+                <p class="text-sm text-text-dark-muted mb-2">support@samlaw.com</p>
+                <p class="text-xs text-text-dark-muted">Response time: 24-48 hours</p>
+            </div>
+            
+            <div class="border border-gray-700 rounded-sm p-4">
+                <div class="flex items-center gap-3 mb-2">
+                    <svg class="w-5 h-5 text-accent-cyan" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M216,48H40A16,16,0,0,0,24,64V224a15.85,15.85,0,0,0,9.24,14.5A16.13,16.13,0,0,0,40,240a15.89,15.89,0,0,0,10.25-3.78.69.69,0,0,0,.13-.11L82.5,208H216a16,16,0,0,0,16-16V64A16,16,0,0,0,216,48Z"></path>
+                    </svg>
+                    <h4 class="font-semibold text-white">Live Chat</h4>
+                </div>
+                <p class="text-sm text-text-dark-muted mb-2">Available Monday-Friday</p>
+                <p class="text-xs text-text-dark-muted">9:00 AM - 5:00 PM EST</p>
+            </div>
+        </div>
+        
+        <button class="mt-4 px-6 py-3 bg-accent-cyan/20 text-accent-cyan border border-accent-cyan rounded-sm font-medium hover:bg-accent-cyan/30 transition-colors">
+            Contact Support Team
+        </button>
+    </div>
+    
+    <!-- System Information -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-6">
+        <h3 class="text-lg font-bold text-white mb-4">System Information</h3>
+        <div class="grid grid-cols-2 gap-3 text-sm">
+            <div>
+                <span class="text-text-dark-muted">Version:</span>
+                <span class="text-white ml-2">1.0.0</span>
+            </div>
+            <div>
+                <span class="text-text-dark-muted">Last Updated:</span>
+                <span class="text-white ml-2">October 15, 2025</span>
+            </div>
+            <div>
+                <span class="text-text-dark-muted">Status:</span>
+                <span class="text-green-400 ml-2">● All Systems Operational</span>
+            </div>
+            <div>
+                <span class="text-text-dark-muted">Platform:</span>
+                <span class="text-white ml-2">Xibalba Framework v6.1</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

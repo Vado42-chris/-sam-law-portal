@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block page_title %}Notifications{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-6">
+        <h1 class="text-2xl font-bold text-white mb-2">Notifications Center</h1>
+        <p class="text-text-dark-muted">5 active notifications across all Xibalba services</p>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-8">
+        <div class="space-y-3">
+            <div class="border-l-4 border-accent-cyan bg-gray-800/30 p-4 rounded-sm">
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <p class="text-white font-medium mb-1">Legal Aid Deadline Approaching</p>
+                        <p class="text-sm text-text-dark-muted">Your Legal Aid application is due in 10 days</p>
+                        <span class="text-xs text-text-dark-muted mt-2 block">Today at 9:30 AM</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-l-4 border-accent-cyan bg-gray-800/30 p-4 rounded-sm">
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <p class="text-white font-medium mb-1">New Document Uploaded</p>
+                        <p class="text-sm text-text-dark-muted">Emma Rodriguez uploaded "Separation_Agreement_Draft_v2.pdf"</p>
+                        <span class="text-xs text-text-dark-muted mt-2 block">Yesterday at 4:15 PM</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-l-4 border-gray-600 bg-gray-800/30 p-4 rounded-sm">
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <p class="text-white font-medium mb-1">Timeline Updated</p>
+                        <p class="text-sm text-text-dark-muted">New court date added to your timeline</p>
+                        <span class="text-xs text-text-dark-muted mt-2 block">2 days ago</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-l-4 border-gray-600 bg-gray-800/30 p-4 rounded-sm">
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <p class="text-white font-medium mb-1">Message from Legal Team</p>
+                        <p class="text-sm text-text-dark-muted">You have a new message in the mediation portal</p>
+                        <span class="text-xs text-text-dark-muted mt-2 block">3 days ago</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-l-4 border-gray-600 bg-gray-800/30 p-4 rounded-sm">
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <p class="text-white font-medium mb-1">Case Note Added</p>
+                        <p class="text-sm text-text-dark-muted">New note added to "Questions for Lawyer"</p>
+                        <span class="text-xs text-text-dark-muted mt-2 block">5 days ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

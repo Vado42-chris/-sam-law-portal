@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block page_title %}My Lawyers{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-6">
+        <h1 class="text-2xl font-bold text-white mb-2">My Lawyers</h1>
+        <p class="text-text-dark-muted">Your legal team at SAM LAW</p>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="bg-surface-dark/30 border border-gray-700 rounded-sm p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Primary Lawyer -->
+            <div class="border border-accent-cyan rounded-sm p-6">
+                <div class="flex items-start gap-4 mb-4">
+                    <div class="w-16 h-16 rounded-full bg-accent-cyan/20 flex items-center justify-center text-accent-cyan font-bold text-xl">ER</div>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-semibold text-white">Emma Rodriguez</h3>
+                        <p class="text-sm text-accent-cyan mb-1">Primary Lawyer</p>
+                        <p class="text-xs text-text-dark-muted">Family Law Specialist</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2 text-text-dark-muted">
+                        <span class="w-4 h-4">📧</span>
+                        <span>emma.rodriguez@samlaw.ca</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-text-dark-muted">
+                        <span class="w-4 h-4">📱</span>
+                        <span>(416) 555-0123</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-text-dark-muted">
+                        <span class="w-4 h-4">⏰</span>
+                        <span>Available Mon-Fri, 9AM-5PM</span>
+                    </div>
+                </div>
+                
+                <div class="mt-4 pt-4 border-t border-gray-700">
+                    <div class="flex gap-2">
+                        <button class="flex-1 bg-accent-cyan text-white px-4 py-2 rounded-sm text-sm font-medium hover:bg-accent-cyan/80">Send Message</button>
+                        <button class="flex-1 bg-surface-dark border border-gray-700 text-white px-4 py-2 rounded-sm text-sm font-medium hover:border-accent-cyan">Schedule Call</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Supporting Team -->
+            <div class="border border-gray-700 rounded-sm p-6">
+                <h3 class="text-lg font-semibold text-white mb-4">Supporting Team</h3>
+                
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3 pb-4 border-b border-gray-700">
+                        <div class="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center text-white font-bold">MS</div>
+                        <div class="flex-1">
+                            <p class="font-medium text-white">Michael Smith</p>
+                            <p class="text-xs text-text-dark-muted">Legal Assistant</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-3 pb-4 border-b border-gray-700">
+                        <div class="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center text-white font-bold">SJ</div>
+                        <div class="flex-1">
+                            <p class="font-medium text-white">Sarah Johnson</p>
+                            <p class="text-xs text-text-dark-muted">Mediator</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center text-white font-bold">DL</div>
+                        <div class="flex-1">
+                            <p class="font-medium text-white">David Lee</p>
+                            <p class="text-xs text-text-dark-muted">Family Law Consultant</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

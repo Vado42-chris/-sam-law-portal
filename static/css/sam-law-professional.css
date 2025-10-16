@@ -1,0 +1,133 @@
+/*
+#sam_law #professional_tier #pattern_170 #no_emojis #no_gradients
+SAM Law - Professional Tier Design System
+Built by Samuel Alfred Hallberg
+Date: October 14, 2025, 3:35 PM
+
+LESSONS APPLIED:
+- NO emojis (use text labels)
+- NO gradients (flat backgrounds)
+- NO decorative animations
+- NO excessive transforms
+- Grey-on-grey depth system
+- Cursor IDE aesthetic
+- Professional typography
+- Subtle shadows only
+
+Dad's standard: Adobe meets Cursor
+*/
+
+/* #color_system #cursor_greys */
+:root {
+    /* Grey hierarchy - Cursor exact */
+    --bg-layer-0: #1e1e1e;
+    --bg-layer-1: #252526;
+    --bg-layer-2: #2d2d2d;
+    --bg-layer-3: #333333;
+    
+    /* SAM Law teal accent */
+    --sam-law-teal: #1dc9c9;
+    --sam-law-teal-hover: #48D1D1;
+    --sam-law-teal-muted: rgba(29, 201, 201, 0.2);
+    
+    /* Text hierarchy */
+    --text-bright: #ffffff;
+    --text-primary: #cccccc;
+    --text-secondary: #999999;
+    --text-muted: #6c6c6c;
+    
+    /* Borders - grey on grey */
+    --border-subtle: rgba(255, 255, 255, 0.06);
+    --border-visible: rgba(255, 255, 255, 0.1);
+    --border-focus: #1dc9c9;
+    
+    /* Shadows - professional depth */
+    --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.12);
+    --shadow-medium: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --shadow-elevated: 0 10px 20px rgba(0, 0, 0, 0.24);
+}
+
+/* #base_overrides #flat_professional */
+body {
+    background: var(--bg-layer-0) !important;
+    background-image: none !important;
+}
+
+/* #cards_flat_professional */
+.info-card,
+.party-card,
+.settings-section,
+.note-card,
+.document-row,
+.timeline-event .event-content {
+    background: var(--bg-layer-1) !important;
+    background-image: none !important;
+    border: 1px solid var(--border-subtle) !important;
+    box-shadow: var(--shadow-subtle) !important;
+    transition: all 0.2s ease !important;
+}
+
+.info-card:hover,
+.party-card:hover,
+.note-card:hover,
+.document-row:hover,
+.timeline-event .event-content:hover {
+    background: var(--bg-layer-2) !important;
+    border-color: var(--border-visible) !important;
+    box-shadow: var(--shadow-medium) !important;
+    transform: translateY(-1px) !important; /* Subtle only */
+}
+
+/* #buttons_flat_no_gradients */
+.btn-primary,
+button.btn-primary {
+    background: var(--bg-layer-2) !important;
+    background-image: none !important;
+    border: 1px solid var(--border-visible) !important;
+    box-shadow: var(--shadow-subtle) !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn-primary:hover {
+    background: var(--bg-layer-3) !important;
+    border-color: var(--sam-law-teal) !important;
+    box-shadow: var(--shadow-medium) !important;
+    transform: none !important; /* No jumping */
+}
+
+/* #case_header_flat */
+.case-header {
+    background: var(--bg-layer-1) !important;
+    background-image: none !important;
+    border: 1px solid var(--border-visible) !important;
+}
+
+/* #progress_bar_flat */
+.progress-bar {
+    background: var(--bg-layer-0) !important;
+}
+
+.progress-fill {
+    background: var(--sam-law-teal) !important;
+    background-image: none !important;
+}
+
+/* #timeline_line_flat */
+.timeline-line {
+    background: var(--sam-law-teal) !important;
+    background-image: none !important;
+}
+
+/* #remove_decorative_effects */
+*::before,
+*::after {
+    background-image: none !important;
+}
+
+/* #text_labels_not_emojis */
+.case-header h1::before,
+.info-card h3::before,
+.settings-tab::before {
+    content: '' !important;
+}
+

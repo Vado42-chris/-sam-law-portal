@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}SAM Law - Case Overview{% endblock %}
+
+{% block content %}
+<header>
+    <h1>Welcome Back, Chris</h1>
+    <p style="font-weight: 300; opacity: 0.85;">Legal Aid application in progress</p>
+</header>
+
+<!-- Status Cards Grid -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 40px;">
+    
+    <!-- Case Status Card -->
+    <div class="card">
+        <h3>Case Status</h3>
+        <div style="margin: 24px 0;">
+            <div style="font-size: 1.5rem; font-weight: 300; color: var(--sam-law-teal);">
+                {{ case.status }}
+            </div>
+            <div style="margin-top: 12px; opacity: 0.75;">
+                {{ case.case_type }}
+            </div>
+        </div>
+        <div style="font-size: 0.85rem; opacity: 0.6;">
+            Case #{{ case.case_number }}
+        </div>
+    </div>
+    
+    <!-- Documents Card -->
+    <div class="card">
+        <h3>Documents</h3>
+        <div style="margin: 24px 0;">
+            <div style="font-size: 3rem; font-weight: 100; color: var(--sam-law-teal);">
+                {{ document_count }}
+            </div>
+            <div style="margin-top: 12px; opacity: 0.75;">
+                Total uploaded
+            </div>
+        </div>
+        <a href="/documents" class="btn-secondary" style="width: 100%; text-align: center; display: block; text-decoration: none;">
+            View All Documents
+        </a>
+    </div>
+    
+    <!-- Important Dates Card -->
+    <div class="card">
+        <h3>Important Dates</h3>
+        <div style="margin: 24px 0;">
+            <div style="font-size: 3rem; font-weight: 100; color: var(--sam-law-teal);">
+                {{ timeline_count }}
+            </div>
+            <div style="margin-top: 12px; opacity: 0.75;">
+                Upcoming deadlines
+            </div>
+        </div>
+        <a href="/timeline" class="btn-secondary" style="width: 100%; text-align: center; display: block; text-decoration: none;">
+            View Timeline
+        </a>
+    </div>
+    
+    <!-- Days Active Card -->
+    <div class="card">
+        <h3>Case Duration</h3>
+        <div style="margin: 24px 0;">
+            <div style="font-size: 3rem; font-weight: 100; color: var(--sam-law-teal);">
+                {{ days_active }}
+            </div>
+            <div style="margin-top: 12px; opacity: 0.75;">
+                Days since separation
+            </div>
+        </div>
+        <div style="font-size: 0.85rem; opacity: 0.6;">
+            Since {{ case_info.key_dates.separation }}
+        </div>
+    </div>
+    
+</div>
+
+<!-- Upcoming Deadlines Section -->
+{% if upcoming_deadlines %}
+<div class="card">
+    <h2>Upcoming Deadlines</h2>
+    <div style="margin-top: 24px;">
+        {% for deadline in upcoming_deadlines %}
+        <div style="padding: 16px; background: rgba(45, 45, 48, 0.5); border-left: 3px solid var(--sam-law-teal); margin: 12px 0; cursor: pointer;" onclick="window.location.href='/timeline'">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-weight: 400;">{{ deadline.title }}</div>
+                    <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 4px;">{{ deadline.description }}</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-weight: 300; color: var(--sam-law-teal);">{{ deadline.date }}</div>
+                    <div style="font-size: 0.85rem; opacity: 0.6; margin-top: 4px;">{{ deadline.category }}</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a href="/timeline" class="btn-secondary" style="width: 100%; text-align: center; display: block; text-decoration: none; margin-top: 16px;">
+        View All Timeline Events
+    </a>
+</div>
+{% endif %}
+
+<!-- Quick Actions -->
+<div class="card">
+    <h2>Quick Actions</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 24px;">
+        <button class="btn-primary" onclick="location.href='/documents'">
+            Upload Document
+        </button>
+        <button class="btn-primary" onclick="location.href='/timeline'">
+            Add Important Date
+        </button>
+        <button class="btn-primary" onclick="location.href='/notes'">
+            Create Note
+        </button>
+    </div>
+</div>
+
+<!-- Next Steps Checklist -->
+<div class="card">
+    <h2>Next Steps</h2>
+    <div style="margin-top: 24px;">
+        <div style="padding: 16px; background: rgba(45, 45, 48, 0.5); border-left: 3px solid var(--sam-law-teal); margin: 12px 0;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <input type="checkbox" id="step1" style="width: 20px; height: 20px;">
+                <label for="step1" style="font-weight: 400; cursor: pointer;">
+                    Gather all financial documents for Legal Aid application
+                </label>
+            </div>
+        </div>
+        
+        <div style="padding: 16px; background: rgba(45, 45, 48, 0.5); border-left: 3px solid var(--sam-law-teal); margin: 12px 0;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <input type="checkbox" id="step2" style="width: 20px; height: 20px;">
+                <label for="step2" style="font-weight: 400; cursor: pointer;">
+                    Document timeline of key events in separation
+                </label>
+            </div>
+        </div>
+        
+        <div style="padding: 16px; background: rgba(45, 45, 48, 0.5); border-left: 3px solid var(--sam-law-teal); margin: 12px 0;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <input type="checkbox" id="step3" style="width: 20px; height: 20px;">
+                <label for="step3" style="font-weight: 400; cursor: pointer;">
+                    Prepare questions for initial lawyer consultation
+                </label>
+            </div>
+        </div>
+        
+        <div style="padding: 16px; background: rgba(45, 45, 48, 0.5); border-left: 3px solid var(--sam-law-teal); margin: 12px 0;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <input type="checkbox" id="step4" style="width: 20px; height: 20px;">
+                <label for="step4" style="font-weight: 400; cursor: pointer;">
+                    Submit Legal Aid application by October 25, 2025
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Persist checklist state in localStorage
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        const key = checkbox.id;
+        const saved = localStorage.getItem(key);
+        if (saved === 'true') {
+            checkbox.checked = true;
+        }
+        
+        checkbox.addEventListener('change', function() {
+            localStorage.setItem(key, this.checked);
+        });
+    });
+</script>
+{% endblock %}
+

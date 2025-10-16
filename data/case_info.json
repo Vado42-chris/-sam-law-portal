@@ -1,0 +1,59 @@
+{
+  "case_number": "SAML-00001",
+  "case_type": "Family Law - Separation",
+  "status": "Preparing for Legal Aid",
+  "filed_date": "2025-09-15",
+  "separation_date": "2025-07-01",
+  "jurisdiction": {
+    "province": "Saskatchewan",
+    "city": "Saskatoon",
+    "court": "Court of King's Bench for Saskatchewan",
+    "court_location": "Saskatoon"
+  },
+  "applicant": {
+    "name": "Christopher James Hallberg",
+    "role": "Applicant",
+    "address": "2449 Eastview, Saskatoon, SK S7J 3E8",
+    "marital_home": "2449 Eastview, Saskatoon, SK S7J 3E8",
+    "email": "chris@xibalba-studio.ca",
+    "phone": "",
+    "disability_status": "Receiving SAID (Saskatchewan Assured Income for Disability)",
+    "representation": "Self-Represented",
+    "legal_counsel": null
+  },
+  "respondent": {
+    "name": "Katherine Andersen-Hallberg",
+    "role": "Respondent",
+    "address": "Contact via counsel",
+    "email": null,
+    "phone": null,
+    "legal_counsel": "Not yet disclosed",
+    "note": "Legal name is Andersen-Hallberg (hyphenated). Current use unknown."
+  },
+  "key_dates": {
+    "filed": "2025-09-15",
+    "separation": "2025-07-01",
+    "legal_aid_deadline": "2025-11-15",
+    "mediation": "2025-12-01",
+    "court_hearing": "2026-01-15"
+  },
+  "financial": {
+    "income_source": "SAID (Saskatchewan Assured Income for Disability)",
+    "monthly_income": 1787,
+    "assets": 4600,
+    "debts": 12700,
+    "legal_aid_eligible": true
+  },
+  "case_notes": "Disability considerations: ADHD, Autism, Dyscalculia. Currently receiving SAID benefits. Need accessible communication methods.",
+  "additional_parties": [
+    {
+      "id": "party_1",
+      "name": "Chris",
+      "role": "Mediator",
+      "organization": "test",
+      "email": "me@nope.com",
+      "phone": "306-250-7332",
+      "added_date": "2025-10-14"
+    }
+  ]
+}

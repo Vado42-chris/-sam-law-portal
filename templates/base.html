@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SAM Law - Legal Aid{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/polish-MASTER-final.css') }}">
+    
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#1dc9c9',
+                        'background-dark': '#112121',
+                        'surface-dark': '#1e2d2d',
+                        'text-dark': '#e3e8e8',
+                        'text-dark-muted': '#BDBDBD',
+                        'accent-cyan': '#1dc9c9',
+                    },
+                    fontFamily: {
+                        display: ['Manrope', 'sans-serif'],
+                        body: ['Roboto', 'sans-serif'],
+                        mono: ['Roboto Mono', 'monospace'],
+                    },
+                    borderRadius: {
+                        DEFAULT: "3px",
+                        lg: "3px",
+                        xl: "3px",
+                        full: "9999px",
+                    },
+                },
+            },
+        };
+    </script>
+    
+    {% block extra_css %}{% endblock %}
+    
+    <style>
+        /* THREE-TIER PROFESSIONAL NAVIGATION */
+        
+        /* TIER 1: TOP BAR (80px) - Logo + Left Nav + Right Icons + Profile */
+        .xibalba-top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 80px;
+            background: #1e1e1e;
+            border-bottom: 1px solid #2d2d2d;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            padding: 0 24px;
+            gap: 32px;
+        }
+        
+        .logo-area {
+            height: 56px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-area img {
+            height: 56px;
+            width: auto;
+        }
+        
+        .nav-center {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .nav-item {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 16px;
+            border-radius: 3px;
+            transition: all 0.2s;
+            font-family: 'Roboto', sans-serif;
+            white-space: nowrap;
+        }
+        
+        .nav-item:hover {
+            background: rgba(29, 201, 201, 0.1);
+            color: #1dc9c9;
+        }
+        
+        .nav-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .icon-button {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(29, 201, 201, 0.1);
+            color: #1dc9c9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        
+        .icon-button:hover {
+            background: rgba(29, 201, 201, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #cc3300;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 9999px;
+            min-width: 20px;
+            text-align: center;
+            line-height: 1;
+        }
+        
+        .profile-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        
+        .profile-card:hover {
+            background: rgba(29, 201, 201, 0.1);
+            border-color: #1dc9c9;
+        }
+        
+        .profile-photo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid #1dc9c9;
+            object-fit: cover;
+            background: rgba(29, 201, 201, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1dc9c9;
+        }
+        
+        .profile-info {
+            text-align: left;
+        }
+        
+        .profile-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #e3e8e8;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .profile-role {
+            font-size: 12px;
+            color: #BDBDBD;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: #1e2d2d;
+            border: 1px solid #2d2d2d;
+            border-radius: 3px;
+            min-width: 220px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dropdown-menu.active {
+            display: block;
+        }
+        
+        .dropdown-item {
+            display: block;
+            padding: 12px 16px;
+            color: #e3e8e8;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+            border-bottom: 1px solid #2d2d2d;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown-item:hover {
+            background: rgba(29, 201, 201, 0.1);
+            color: #1dc9c9;
+        }
+        
+        /* TIER 2: LAW FIRM SUBNAV (56px) - Law Firm Wide Features */
+        .law-firm-subnav {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            height: 56px;
+            background: #112121;
+            border-bottom: 2px solid #1dc9c9;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            gap: 4px;
+        }
+        
+        .subnav-item {
+            color: #e3e8e8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0 20px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            border-right: 1px solid #2d2d2d;
+            transition: all 0.2s;
+            font-family: 'Roboto', sans-serif;
+            white-space: nowrap;
+        }
+        
+        .subnav-item:last-child {
+            border-right: none;
+        }
+        
+        .subnav-item:hover {
+            color: #1dc9c9;
+            background: rgba(29, 201, 201, 0.1);
+        }
+        
+        /* TIER 3: LEFT SIDEBAR - Case-Specific Only */
+        .case-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background: rgba(30, 45, 45, 0.5);
+            border-right: 1px solid #2d2d2d;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .case-header {
+            padding: 20px;
+            background: rgba(29, 201, 201, 0.05);
+            border-bottom: 2px solid #1dc9c9;
+        }
+        
+        .case-number {
+            font-size: 11px;
+            color: #1dc9c9;
+            font-weight: 700;
+            margin-bottom: 4px;
+            font-family: 'Roboto Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .case-type {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e3e8e8;
+            margin-bottom: 8px;
+            font-family: 'Manrope', sans-serif;
+        }
+        
+        .case-lawyer {
+            font-size: 13px;
+            color: #BDBDBD;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .case-status {
+            display: inline-block;
+            font-size: 11px;
+            color: #00ccaa;
+            background: rgba(0, 204, 170, 0.1);
+            padding: 4px 8px;
+            border-radius: 3px;
+            margin-top: 8px;
+            font-weight: 600;
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        /* Adjust main layout for fixed navs */
+        body {
+            padding-top: 136px; /* 80px top bar + 56px subnav */
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-text-dark text-base font-body">
+    <!-- TIER 1: TOP BAR (80px) - Logo + Left Nav + Right Icons + Profile -->
+    <nav class="xibalba-top-bar">
+        <!-- LEFT: Logo -->
+        <div class="logo-area">
+            <a href="http://localhost:5500">
+                <img src="{{ url_for('static', filename='images/xibalba-logo.png') }}" alt="Xibalba" style="height: 56px; width: auto;">
+            </a>
+        </div>
+        
+        <!-- CENTER: Navigation Items -->
+        <div class="nav-center">
+            <!-- Studios Dropdown -->
+            <div class="user-dropdown" style="position: relative;">
+                <a href="#" class="nav-item" onclick="toggleStudiosDropdown(event)">Studios ▼</a>
+                <div class="dropdown-menu" id="studiosDropdown" style="left: 0; right: auto; min-width: 280px;">
+                    <a href="http://localhost:5601" class="dropdown-item">🏛️ SAM Law - Legal Studio</a>
+                    <a href="http://localhost:5602" class="dropdown-item">📊 SAM Analytics - Data Studio</a>
+                    <a href="http://localhost:5603" class="dropdown-item">🎨 SAM Design - Creative Studio</a>
+                    <a href="http://localhost:5604" class="dropdown-item">🛠️ SAM Dev - Engineering Studio</a>
+                    <a href="http://localhost:5605" class="dropdown-item">💼 SAM Business - Strategy Studio</a>
+                    <a href="http://localhost:5500" class="dropdown-item" style="border-top: 1px solid #2d2d2d; margin-top: 8px; padding-top: 12px;">🏠 Xibalba Command Center</a>
+                </div>
+            </div>
+            <a href="/calendar" class="nav-item">📅 Calendar</a>
+            <a href="/messages" class="nav-item">💬 Messages</a>
+            <a href="/help" class="nav-item">❓ Help</a>
+        </div>
+        
+        <!-- RIGHT: Icon Services + Profile Card -->
+        <div class="nav-right">
+            <!-- Quick Files Icon -->
+            <a href="/files" class="icon-button" title="Quick Files">
+                <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM152,88V44l44,44Z"></path>
+                </svg>
+            </a>
+            
+            <!-- Email Icon -->
+            <a href="/email" class="icon-button" title="Email">
+                <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
+                </svg>
+                <span class="notification-badge">3</span>
+            </a>
+            
+            <!-- Notifications Icon -->
+            <a href="/notifications" class="icon-button" title="Notifications">
+                <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"></path>
+                </svg>
+                <span class="notification-badge">5</span>
+            </a>
+            
+            <!-- Direct Messages Icon -->
+            <a href="/direct-messages" class="icon-button" title="Direct Messages">
+                <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M216,48H40A16,16,0,0,0,24,64V224a15.85,15.85,0,0,0,9.24,14.5A16.13,16.13,0,0,0,40,240a15.89,15.89,0,0,0,10.25-3.78.69.69,0,0,0,.13-.11L82.5,208H216a16,16,0,0,0,16-16V64A16,16,0,0,0,216,48ZM40,224h0ZM216,192H82.5a16,16,0,0,0-10.3,3.75l-.12.11L40,224V64H216Z"></path>
+                </svg>
+                <span class="notification-badge">2</span>
+            </a>
+            
+            <!-- Profile Card with Dropdown -->
+            <div class="user-dropdown">
+                <div class="profile-card" onclick="toggleDropdown()">
+                    <div class="profile-photo">CH</div>
+                    <div class="profile-info">
+                        <div class="profile-name">Chris Hallberg</div>
+                        <div class="profile-role">Client</div>
+                    </div>
+                    <span style="color: #1dc9c9;">▼</span>
+                </div>
+                <div class="dropdown-menu" id="userDropdown">
+                    <a href="#" class="dropdown-item">My Profile</a>
+                    <a href="/my-cases" class="dropdown-item">My Cases</a>
+                    <a href="/settings" class="dropdown-item">Account Settings</a>
+                    <a href="#" class="dropdown-item">Billing</a>
+                    <a href="#" class="dropdown-item">Help & Support</a>
+                    <a href="#" class="dropdown-item" style="color: #cc3300;">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- TIER 2: LAW FIRM SUBNAV (56px) - Law Firm Wide Features -->
+    <nav class="law-firm-subnav">
+        <a href="/my-cases" class="subnav-item">📋 My Cases</a>
+        <a href="/my-lawyers" class="subnav-item">⚖️ My Lawyers</a>
+        <a href="/documents" class="subnav-item">📄 Documents</a>
+        <a href="/timeline" class="subnav-item">📅 Timeline</a>
+        <a href="/notes" class="subnav-item">📝 Notes</a>
+        <a href="/legal-strategy" class="subnav-item">🎯 Strategy</a>
+        <a href="/billing" class="subnav-item">💰 Billing</a>
+    </nav>
+
+    <script>
+        function toggleDropdown() {
+            document.getElementById('userDropdown').classList.toggle('active');
+            // Close studios dropdown if open
+            document.getElementById('studiosDropdown').classList.remove('active');
+        }
+        
+        function toggleStudiosDropdown(event) {
+            event.preventDefault();
+            document.getElementById('studiosDropdown').classList.toggle('active');
+            // Close user dropdown if open
+            document.getElementById('userDropdown').classList.remove('active');
+        }
+        
+        // Close dropdowns when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.closest('.user-dropdown')) {
+                var userDropdown = document.getElementById('userDropdown');
+                var studiosDropdown = document.getElementById('studiosDropdown');
+                
+                if (userDropdown && userDropdown.classList.contains('active')) {
+                    userDropdown.classList.remove('active');
+                }
+                if (studiosDropdown && studiosDropdown.classList.contains('active')) {
+                    studiosDropdown.classList.remove('active');
+                }
+            }
+        }
+    </script>
+
+    <div class="flex h-screen">
+        <!-- TIER 3: LEFT SIDEBAR - Case-Specific Only -->
+        <aside class="case-sidebar">
+            <!-- Case Header -->
+            <div class="case-header">
+                <div class="case-number">{{ case_info.case_number if case_info else 'LEGAL-00001' }}</div>
+                <div class="case-type">{{ case_info.case_type if case_info else 'Family Law - Separation' }}</div>
+                <div class="case-lawyer">Lawyer: Emma Rodriguez</div>
+                <div class="case-status">ACTIVE</div>
+            </div>
+            
+            <!-- Case Navigation -->
+            <nav class="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
+                <a class="flex items-center gap-3 px-3 py-2 rounded text-text-dark-muted hover:bg-gray-700/50 hover:text-white {% if request.endpoint == 'dashboard' %}bg-accent-cyan/10 text-accent-cyan{% endif %}" href="/">
+                    <span class="text-sm font-medium">Case Overview</span>
+                </a>
+                
+                <a class="flex items-center gap-3 px-3 py-2 rounded text-text-dark-muted hover:bg-gray-700/50 hover:text-white {% if request.endpoint == 'case_details' %}bg-accent-cyan/10 text-accent-cyan{% endif %}" href="/case-details">
+                    <span class="text-sm font-medium">Parties & Roles</span>
+                </a>
+                
+                <a class="flex items-center gap-3 px-3 py-2 rounded text-text-dark-muted hover:bg-gray-700/50 hover:text-white {% if request.endpoint == 'documents' %}bg-accent-cyan/10 text-accent-cyan{% endif %}" href="/documents">
+                    <span class="text-sm font-medium">Case Documents</span>
+                </a>
+                
+                <a class="flex items-center gap-3 px-3 py-2 rounded text-text-dark-muted hover:bg-gray-700/50 hover:text-white {% if request.endpoint == 'timeline' %}bg-accent-cyan/10 text-accent-cyan{% endif %}" href="/timeline">
+                    <span class="text-sm font-medium">Case Timeline</span>
+                </a>
+                
+                <a class="flex items-center gap-3 px-3 py-2 rounded text-text-dark-muted hover:bg-gray-700/50 hover:text-white {% if request.endpoint == 'notes' %}bg-accent-cyan/10 text-accent-cyan{% endif %}" href="/notes">
+                    <span class="text-sm font-medium">Case Notes</span>
+                </a>
+                
+                <a class="flex items-center gap-3 px-3 py-2 rounded text-text-dark-muted hover:bg-gray-700/50 hover:text-white {% if request.endpoint == 'communications' %}bg-accent-cyan/10 text-accent-cyan{% endif %}" href="/communications">
+                    <span class="text-sm font-medium">Case Messages</span>
+                </a>
+                
+                <a class="flex items-center gap-3 px-3 py-2 rounded text-text-dark-muted hover:bg-gray-700/50 hover:text-white {% if request.endpoint == 'conversations' %}bg-accent-cyan/10 text-accent-cyan{% endif %}" href="/conversations">
+                    <span class="text-sm font-medium">AI Legal Counsel</span>
+                </a>
+                
+                <a class="flex items-center gap-3 px-3 py-2 rounded text-text-dark-muted hover:bg-gray-700/50 hover:text-white {% if request.endpoint == 'legal_strategy' %}bg-accent-cyan/10 text-accent-cyan{% endif %}" href="/legal-strategy">
+                    <span class="text-sm font-medium">Legal Strategy</span>
+                </a>
+                
+                <a class="flex items-center gap-3 px-3 py-2 rounded text-text-dark-muted hover:bg-gray-700/50 hover:text-white {% if request.endpoint == 'case_billing' %}bg-accent-cyan/10 text-accent-cyan{% endif %}" href="/case-billing">
+                    <span class="text-sm font-medium">Case Billing</span>
+                </a>
+                
+                <a class="flex items-center gap-3 px-3 py-2 rounded text-text-dark-muted hover:bg-gray-700/50 hover:text-white {% if request.endpoint == 'settings' %}bg-accent-cyan/10 text-accent-cyan{% endif %}" href="/settings">
+                    <span class="text-sm font-medium">Case Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Header -->
+            <div class="bg-surface-dark/30 border-b border-gray-700 px-8 py-4 flex items-center justify-between">
+                <div>
+                    <h2 class="text-lg font-bold text-white font-display">{% block page_title %}Dashboard{% endblock %}</h2>
+                    <p class="text-sm text-text-dark-muted">Case: SAML-00001 - Chris Hallberg</p>
+                </div>
+                <div class="text-sm text-text-dark-muted font-mono" id="current-time">Loading...</div>
+            </div>
+
+            <!-- Scrollable Content -->
+            <main class="flex-1 overflow-y-auto p-8">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+    
+    <!-- Emergency Modal -->
+    {% include 'components/emergency_modal.html' %}
+
+    <!-- Scripts -->
+    {% block scripts %}{% endblock %}
+    
+    <!-- Time Updater -->
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            }).toUpperCase();
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                timeElement.textContent = timeString;
+            }
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

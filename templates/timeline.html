@@ -1,0 +1,399 @@
+{% extends "base.html" %}
+
+{% block title %}SAM Law - Timeline{% endblock %}
+
+{% block extra_css %}
+<style>
+    .timeline-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+    }
+    
+    .timeline-line {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(180deg, 
+            var(--sam-law-teal) 0%, 
+            rgba(29, 201, 201, 0.3) 100%);
+        transform: translateX(-50%);
+    }
+    
+    .timeline-event {
+        display: grid;
+        grid-template-columns: 1fr 60px 1fr;
+        gap: 32px;
+        margin-bottom: 48px;
+        align-items: center;
+    }
+    
+    .timeline-event.left .event-content {
+        grid-column: 1;
+        text-align: right;
+    }
+    
+    .timeline-event.right .event-content {
+        grid-column: 3;
+        text-align: left;
+    }
+    
+    .timeline-event.left .event-spacer {
+        grid-column: 3;
+    }
+    
+    .timeline-event.right .event-spacer {
+        grid-column: 1;
+    }
+    
+    .event-dot {
+        grid-column: 2;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--sam-law-teal);
+        border: 4px solid #112121;
+        box-shadow: 0 0 0 4px rgba(29, 201, 201, 0.2);
+        z-index: 2;
+        margin: 0 auto;
+        transition: all 0.3s ease;
+    }
+    
+    .timeline-event:hover .event-dot {
+        transform: scale(1.5);
+        box-shadow: 0 0 0 8px rgba(29, 201, 201, 0.3);
+    }
+    
+    .event-content {
+        background: rgba(45, 45, 48, 0.5);
+        padding: 24px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .event-content:hover {
+        background: rgba(45, 45, 48, 0.7);
+        border-color: rgba(29, 201, 201, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+    
+    .event-date {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--sam-law-teal);
+        margin-bottom: 8px;
+        font-family: 'JetBrains Mono', monospace;
+    }
+    
+    .event-title {
+        font-size: 1.2rem;
+        font-weight: 400;
+        margin-bottom: 8px;
+    }
+    
+    .event-description {
+        font-size: 0.95rem;
+        font-weight: 300;
+        opacity: 0.85;
+        line-height: 1.6;
+    }
+    
+    .event-category {
+        display: inline-block;
+        padding: 4px 12px;
+        background: rgba(29, 201, 201, 0.2);
+        border: 1px solid rgba(29, 201, 201, 0.3);
+        border-radius: 12px;
+        font-size: 0.85rem;
+        margin-top: 12px;
+    }
+    
+    .event-deadline {
+        border-left: 4px solid #f87171;
+        background: rgba(248, 113, 113, 0.1);
+    }
+    
+    .event-milestone {
+        border-left: 4px solid var(--sam-law-teal);
+        background: rgba(29, 201, 201, 0.1);
+    }
+    
+    .event-past {
+        opacity: 0.6;
+    }
+    
+    .filter-tabs {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 40px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .filter-tab {
+        padding: 10px 20px;
+        background: rgba(45, 45, 48, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 400;
+    }
+    
+    .filter-tab:hover {
+        background: rgba(45, 45, 48, 0.7);
+        border-color: rgba(29, 201, 201, 0.4);
+    }
+    
+    .filter-tab.active {
+        background: rgba(29, 201, 201, 0.2);
+        border-color: var(--sam-law-teal);
+        color: var(--sam-law-teal);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<header>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1>Case Timeline</h1>
+            <p style="font-weight: 300; opacity: 0.85;">Important dates, deadlines, and milestones</p>
+        </div>
+        <button class="btn-primary" onclick="addEvent()">
+            <span style="font-size: 1.1rem; vertical-align: middle; margin-right: 6px;"></span>
+            Add Event
+        </button>
+    </div>
+</header>
+
+<!-- Filter Tabs -->
+<div class="filter-tabs">
+    <div class="filter-tab active" data-filter="all">All Events</div>
+    <div class="filter-tab" data-filter="deadline">Deadlines</div>
+    <div class="filter-tab" data-filter="milestone">Milestones</div>
+    <div class="filter-tab" data-filter="court">Court Dates</div>
+    <div class="filter-tab" data-filter="meeting">Meetings</div>
+</div>
+
+<!-- Timeline -->
+<div class="timeline-container">
+    <div class="timeline-line"></div>
+    
+    <!-- Event 1 - Upcoming Deadline -->
+    <div class="timeline-event right" data-category="deadline">
+        <div class="event-spacer"></div>
+        <div class="event-dot"></div>
+        <div class="event-content event-deadline">
+            <div class="event-date">📍 November 15, 2025</div>
+            <div class="event-title">Legal Aid Application Deadline</div>
+            <div class="event-description">
+                Final date to submit complete Legal Aid application with all supporting documents and financial information.
+            </div>
+            <span class="event-category">⏰ Deadline</span>
+        </div>
+    </div>
+    
+    <!-- Event 2 - Upcoming Meeting -->
+    <div class="timeline-event left" data-category="meeting">
+        <div class="event-content event-milestone">
+            <div class="event-date">📍 November 1, 2025</div>
+            <div class="event-title">Consultation with Legal Aid</div>
+            <div class="event-description">
+                Initial consultation meeting to review case details and determine eligibility for legal aid services.
+            </div>
+            <span class="event-category"> Meeting</span>
+        </div>
+        <div class="event-dot"></div>
+        <div class="event-spacer"></div>
+    </div>
+    
+    <!-- Event 3 - Current Status -->
+    <div class="timeline-event right" data-category="milestone">
+        <div class="event-spacer"></div>
+        <div class="event-dot"></div>
+        <div class="event-content event-milestone">
+            <div class="event-date">📍 October 14, 2025 - TODAY</div>
+            <div class="event-title">Case Documentation Organized</div>
+            <div class="event-description">
+                Completed organization of all case documents using SAM Law platform. Ready for Legal Aid application submission.
+            </div>
+            <span class="event-category">✅ Milestone</span>
+        </div>
+    </div>
+    
+    <!-- Event 4 - Past Event -->
+    <div class="timeline-event left event-past" data-category="milestone">
+        <div class="event-content">
+            <div class="event-date">📍 October 1, 2025</div>
+            <div class="event-title">Financial Disclosure Completed</div>
+            <div class="event-description">
+                Completed comprehensive financial disclosure documentation for separation proceedings.
+            </div>
+            <span class="event-category"> Milestone</span>
+        </div>
+        <div class="event-dot"></div>
+        <div class="event-spacer"></div>
+    </div>
+    
+    <!-- Event 5 - Past Event -->
+    <div class="timeline-event right event-past" data-category="court">
+        <div class="event-spacer"></div>
+        <div class="event-dot"></div>
+        <div class="event-content">
+            <div class="event-date">📍 September 15, 2025</div>
+            <div class="event-title">Initial Court Filing</div>
+            <div class="event-description">
+                Filed initial separation documents with the court. Case number SAML-00001 assigned.
+            </div>
+            <span class="event-category"> Court Date</span>
+        </div>
+    </div>
+    
+    <!-- Event 6 - Past Event -->
+    <div class="timeline-event left event-past" data-category="milestone">
+        <div class="event-content">
+            <div class="event-date">📍 July 1, 2025</div>
+            <div class="event-title">Separation Date</div>
+            <div class="event-description">
+                Official date of separation. Beginning of legal proceedings for family law matter.
+            </div>
+            <span class="event-category"> Milestone</span>
+        </div>
+        <div class="event-dot"></div>
+        <div class="event-spacer"></div>
+    </div>
+    
+    <!-- Event 7 - Future Deadline -->
+    <div class="timeline-event right" data-category="deadline">
+        <div class="event-spacer"></div>
+        <div class="event-dot"></div>
+        <div class="event-content event-deadline">
+            <div class="event-date">📍 December 1, 2025</div>
+            <div class="event-title">Mediation Session Scheduled</div>
+            <div class="event-description">
+                Court-ordered mediation session to attempt resolution of outstanding family law matters.
+            </div>
+            <span class="event-category"> Meeting</span>
+        </div>
+    </div>
+    
+    <!-- Event 8 - Future Court Date -->
+    <div class="timeline-event left" data-category="court">
+        <div class="event-content event-milestone">
+            <div class="event-date">📍 January 15, 2026</div>
+            <div class="event-title">Court Hearing Scheduled</div>
+            <div class="event-description">
+                Scheduled court hearing for resolution of separation matters. Legal counsel representation strongly recommended.
+            </div>
+            <span class="event-category"> Court Date</span>
+        </div>
+        <div class="event-dot"></div>
+        <div class="event-spacer"></div>
+    </div>
+</div>
+
+<!-- Add Event Modal -->
+<div id="add-event-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.9); z-index: 9999; padding: 40px;">
+    <div style="max-width: 800px; margin: 0 auto; background: #1e2d2d; padding: 40px; border-radius: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+            <h2 style="font-weight: 300; margin: 0;">Add Timeline Event</h2>
+            <button onclick="closeAddEvent()" style="background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; opacity: 0.7;">&times;</button>
+        </div>
+        
+        <form id="add-event-form" style="display: grid; gap: 20px;">
+            <div>
+                <label style="display: block; margin-bottom: 8px; font-weight: 400;">Event Title</label>
+                <input type="text" id="event-title" placeholder="e.g., Court Hearing" style="width: 100%; padding: 12px; background: rgba(45, 45, 48, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff;">
+            </div>
+            
+            <div>
+                <label style="display: block; margin-bottom: 8px; font-weight: 400;">Date</label>
+                <input type="date" id="event-date" style="width: 100%; padding: 12px; background: rgba(45, 45, 48, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff;">
+            </div>
+            
+            <div>
+                <label style="display: block; margin-bottom: 8px; font-weight: 400;">Category</label>
+                <select id="event-category" style="width: 100%; padding: 12px; background: rgba(45, 45, 48, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff;">
+                    <option value="deadline">⏰ Deadline</option>
+                    <option value="milestone">✅ Milestone</option>
+                    <option value="court"> Court Date</option>
+                    <option value="meeting"> Meeting</option>
+                </select>
+            </div>
+            
+            <div>
+                <label style="display: block; margin-bottom: 8px; font-weight: 400;">Description</label>
+                <textarea id="event-description" rows="4" placeholder="Describe the event details..." style="width: 100%; padding: 12px; background: rgba(45, 45, 48, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; resize: vertical;"></textarea>
+            </div>
+            
+            <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 12px;">
+                <button type="button" onclick="closeAddEvent()" class="btn-secondary">Cancel</button>
+                <button type="submit" class="btn-primary">Add Event</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Filter tabs
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filter = this.dataset.filter;
+            filterEvents(filter);
+        });
+    });
+    
+    function filterEvents(category) {
+        document.querySelectorAll('.timeline-event').forEach(event => {
+            if (category === 'all' || event.dataset.category === category) {
+                event.style.display = 'grid';
+            } else {
+                event.style.display = 'none';
+            }
+        });
+    }
+    
+    function addEvent() {
+        document.getElementById('add-event-modal').style.display = 'block';
+    }
+    
+    function closeAddEvent() {
+        document.getElementById('add-event-modal').style.display = 'none';
+        document.getElementById('add-event-form').reset();
+    }
+    
+    document.getElementById('add-event-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const title = document.getElementById('event-title').value;
+        const date = document.getElementById('event-date').value;
+        const category = document.getElementById('event-category').value;
+        const description = document.getElementById('event-description').value;
+        
+        console.log('Adding event:', {title, date, category, description});
+        
+        // TODO: Implement actual event creation
+        alert(`Event "${title}" added successfully!\n\nFull event persistence will be implemented next.`);
+        closeAddEvent();
+    });
+    
+    // Close modal on Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeAddEvent();
+        }
+    });
+</script>
+{% endblock %}

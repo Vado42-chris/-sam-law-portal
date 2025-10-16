@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+
+{% block title %}SAM Law - Communications{% endblock %}
+
+{% block content %}
+<header>
+    <h1>Legal Communications</h1>
+    <p style="font-weight: 300; opacity: 0.85;">Secure correspondence with legal counsel and parties</p>
+</header>
+
+<!-- Communication Tabs -->
+<div style="display: flex; gap: 12px; margin-bottom: 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 12px;">
+    <button id="tab-compose" class="tab-button active" onclick="switchTab('compose')">Compose Letter</button>
+    <button id="tab-sent" class="tab-button" onclick="switchTab('sent')">Sent ({{ sent_count }})</button>
+    <button id="tab-drafts" class="tab-button" onclick="switchTab('drafts')">Drafts ({{ drafts_count }})</button>
+    <button id="tab-templates" class="tab-button" onclick="switchTab('templates')">Templates</button>
+</div>
+
+<!-- Compose Tab -->
+<div id="compose-tab" class="tab-content active">
+    <div class="card">
+        <h2>Compose Legal Correspondence</h2>
+        
+        <form id="letterForm" onsubmit="saveLetter(event)">
+            <!-- Recipient -->
+            <div style="margin: 24px 0;">
+                <label for="recipient" style="display: block; margin-bottom: 8px; font-weight: 400;">To: *</label>
+                <select id="recipient" required style="width: 100%; padding: 12px; background: var(--bg-tertiary); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 3px; color: var(--text-primary);">
+                    <option value="">Select Recipient</option>
+                    <option value="katherine_counsel">Katherine's Legal Counsel</option>
+                    <option value="legal_aid">Legal Aid Saskatchewan</option>
+                    <option value="mediator">Mediator</option>
+                    <option value="court">Court of King's Bench</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <!-- Subject -->
+            <div style="margin: 24px 0;">
+                <label for="subject" style="display: block; margin-bottom: 8px; font-weight: 400;">Subject: *</label>
+                <input type="text" id="subject" required style="width: 100%; padding: 12px; background: var(--bg-tertiary); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 3px; color: var(--text-primary);" placeholder="Re: Case SAML-00001">
+            </div>
+            
+            <!-- Letter Body -->
+            <div style="margin: 24px 0;">
+                <label for="letterBody" style="display: block; margin-bottom: 8px; font-weight: 400;">Message: *</label>
+                <textarea id="letterBody" required rows="15" style="width: 100%; padding: 16px; background: var(--bg-tertiary); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 3px; color: var(--text-primary); font-family: 'Inter', monospace; line-height: 1.6;" placeholder="Dear [Recipient],
+
+I am writing regarding Case #SAML-00001..."></textarea>
+            </div>
+            
+            <!-- Attachments -->
+            <div style="margin: 24px 0;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 400;">Attachments:</label>
+                <div id="attachmentsList" style="margin-bottom: 12px; min-height: 40px; padding: 12px; background: rgba(45, 45, 48, 0.5); border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: 3px;">
+                    <div style="opacity: 0.6; font-size: 0.9rem;">No attachments selected</div>
+                </div>
+                <button type="button" class="btn-secondary" onclick="selectAttachments()">Add from Documents</button>
+            </div>
+            
+            <!-- Actions -->
+            <div style="display: flex; gap: 12px; margin-top: 32px;">
+                <button type="submit" name="action" value="send" class="btn-primary" style="flex: 1;">Send Letter</button>
+                <button type="submit" name="action" value="draft" class="btn-secondary" style="flex: 1;">Save as Draft</button>
+                <button type="button" class="btn-secondary" onclick="clearForm()">Clear</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Sent Tab -->
+<div id="sent-tab" class="tab-content">
+    <div class="card">
+        <h2>Sent Correspondence</h2>
+        <div id="sentList" style="margin-top: 24px;">
+            {% if sent_letters %}
+                {% for letter in sent_letters %}
+                <div class="letter-item" onclick="viewLetter('{{ letter.id }}')">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div style="flex: 1;">
+                            <div style="font-weight: 400;">{{ letter.subject }}</div>
+                            <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 4px;">To: {{ letter.recipient }}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.85rem; opacity: 0.6;">{{ letter.date }}</div>
+                            {% if letter.attachments %}
+                            <div style="font-size: 0.85rem; opacity: 0.6; margin-top: 4px;">{{ letter.attachments|length }} attachments</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; padding: 40px; opacity: 0.6;">
+                    No sent correspondence yet
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Drafts Tab -->
+<div id="drafts-tab" class="tab-content">
+    <div class="card">
+        <h2>Draft Correspondence</h2>
+        <div id="draftsList" style="margin-top: 24px;">
+            {% if draft_letters %}
+                {% for letter in draft_letters %}
+                <div class="letter-item" onclick="editDraft('{{ letter.id }}')">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div style="flex: 1;">
+                            <div style="font-weight: 400;">{{ letter.subject }}</div>
+                            <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 4px;">To: {{ letter.recipient }}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.85rem; opacity: 0.6;">Last edited: {{ letter.last_modified }}</div>
+                            <button onclick="deleteDraft('{{ letter.id }}'); event.stopPropagation();" class="btn-secondary" style="margin-top: 8px; padding: 4px 12px; font-size: 0.85rem;">Delete</button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; padding: 40px; opacity: 0.6;">
+                    No drafts saved
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Templates Tab -->
+<div id="templates-tab" class="tab-content">
+    <div class="card">
+        <h2>Letter Templates</h2>
+        <div style="margin-top: 24px;">
+            <div class="template-item" onclick="useTemplate('legal_aid_application')">
+                <div style="font-weight: 400;">Legal Aid Application Cover Letter</div>
+                <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 4px;">Professional template for Legal Aid Saskatchewan application</div>
+            </div>
+            
+            <div class="template-item" onclick="useTemplate('counsel_introduction')">
+                <div style="font-weight: 400;">Introduction to Opposing Counsel</div>
+                <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 4px;">Formal introduction and case overview</div>
+            </div>
+            
+            <div class="template-item" onclick="useTemplate('document_request')">
+                <div style="font-weight: 400;">Document Request</div>
+                <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 4px;">Request for specific documents or information</div>
+            </div>
+            
+            <div class="template-item" onclick="useTemplate('mediation_request')">
+                <div style="font-weight: 400;">Mediation Request</div>
+                <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 4px;">Formal request to initiate mediation</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.tab-button {
+    padding: 12px 24px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    font-weight: 400;
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+}
+
+.tab-button.active {
+    color: var(--sam-law-teal);
+    border-bottom: 2px solid var(--sam-law-teal);
+}
+
+.tab-button:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.letter-item, .template-item {
+    padding: 16px;
+    background: rgba(45, 45, 48, 0.5);
+    border-left: 3px solid var(--sam-law-teal);
+    margin: 12px 0;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.letter-item:hover, .template-item:hover {
+    background: rgba(45, 45, 48, 0.8);
+    border-left-color: var(--accent-hover);
+}
+</style>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+function switchTab(tabName) {
+    // Hide all tabs
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Show selected tab
+    document.getElementById(tabName + '-tab').classList.add('active');
+    document.getElementById('tab-' + tabName).classList.add('active');
+}
+
+async function saveLetter(event) {
+    event.preventDefault();
+    
+    const action = event.submitter.value;
+    const formData = {
+        recipient: document.getElementById('recipient').value,
+        subject: document.getElementById('subject').value,
+        body: document.getElementById('letterBody').value,
+        attachments: [], // TODO: Implement attachment selection
+        status: action === 'send' ? 'sent' : 'draft'
+    };
+    
+    try {
+        const response = await fetch('/api/communications/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            if (action === 'send') {
+                alert('Letter sent successfully and saved to case record.');
+            } else {
+                alert('Draft saved successfully.');
+            }
+            clearForm();
+            location.reload();
+        } else {
+            alert('Error: ' + result.error);
+        }
+    } catch (error) {
+        alert('Error: ' + error.message);
+    }
+}
+
+function clearForm() {
+    document.getElementById('letterForm').reset();
+    document.getElementById('attachmentsList').innerHTML = '<div style="opacity: 0.6; font-size: 0.9rem;">No attachments selected</div>';
+}
+
+function selectAttachments() {
+    alert('Attachment selection will open document picker from your uploaded documents.');
+}
+
+function viewLetter(letterId) {
+    window.location.href = '/communications/view/' + letterId;
+}
+
+function editDraft(draftId) {
+    // Load draft into compose form
+    alert('Loading draft ' + draftId);
+}
+
+function deleteDraft(draftId) {
+    if (confirm('Delete this draft?')) {
+        fetch('/api/communications/draft/' + draftId, {
+            method: 'DELETE'
+        }).then(() => location.reload());
+    }
+}
+
+function useTemplate(templateName) {
+    if (confirm('Load this template? Any unsaved changes will be lost.')) {
+        fetch('/api/communications/template/' + templateName)
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('subject').value = data.subject;
+                document.getElementById('letterBody').value = data.body;
+                switchTab('compose');
+            });
+    }
+}
+</script>
+{% endblock %}
+
